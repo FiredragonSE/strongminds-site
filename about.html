@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — Strong Minds</title>
+  <meta name="description" content="Strong Minds is Gergana Almquist’s advisory practice. Stockholm. Ph.D. from Copenhagen Business School.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav">
+    <a class="brand" href="index.html"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="2" fill="#1c1915"/><path d="M8 23V9h3.2l4.8 9.1L20.8 9H24v14h-2.4v-9.2L17.4 23h-2.8l-4.2-9.2V23H8z" fill="#f3eee6"/></svg><span class="brand-name">Strong <span>Minds</span></span></a>
+    <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="engagements.html">Engagements</a>
+      <a href="about.html" aria-current="page">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="nav-cta" href="contact.html">Get in touch</a>
+    </nav>
+  </header>
+  <main id="main">
+    <div class="wrap page-hero">
+      <div class="kicker"><span>About</span><span>One person</span></div>
+      <h1>Small, on purpose.</h1>
+    </div>
+    <section class="section" style="padding-top: 12px;">
+      <div class="wrap person">
+        <aside class="portrait">
+          <div>
+            <div class="role">Founder and CEO</div>
+            <h2>Gergana Almquist, Ph.D.</h2>
+          </div>
+          <p>Stockholm. I work in several languages. You deal with me, not a team behind a brand.</p>
+        </aside>
+        <div>
+          <p class="lead">Strong Minds is my practice. Technology and defence companies come when they need clear market intelligence, a way into a European country, or a path onto a programme. If a question needs someone on the ground whom I trust, I bring them in. There is no junior layer between the brief and the judgement.</p>
+          <p>I have a Ph.D. in Innovation Management from Copenhagen Business School, and a degree in International Business from the University of Cologne. Before this I worked in investment analysis and in business development, including on infrastructure and energy questions in Sweden. The useful part is that the same person reads the market and then stays with the entry.</p>
+          <p>Insight, energy, integrity is not a rotating slogan. If I cannot see the market, I should not take the work. If the brief never leaves the page, it was not finished. On a fixed fee, the scope is the scope: a weak market gets reported as weak.</p>
+          <h3>What the small size means in practice</h3>
+          <ul class="yes-list">
+            <li>You hire me, not a brand with a delivery team behind it.</li>
+            <li>The fee is fixed and written down.</li>
+            <li>Stockholm as the base. The work covers Europe and the Nordics.</li>
+            <li>English is the language of the practice. Other languages are for the room you are trying to enter.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section class="section band">
+      <div class="wrap split">
+        <div>
+          <div class="section-no">Firm</div>
+          <h2>Strongminds AB</h2>
+          <p>Swedish limited company, org.nr 556911-0355. Advice to management on commercial and industrial questions. The home address stays off the site.</p>
+        </div>
+        <div>
+          <ul class="yes-list">
+            <li>Practice name: Strong Minds</li>
+            <li>Legal name: Strongminds AB</li>
+            <li>Base: Stockholm</li>
+            <li>Phone: +46 76 313 25 44</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap foot">
+      <div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
+      <div><a href="contact.html">Contact</a></div>
+    </div>
+  </footer>
+  <script>
+    const btn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('.nav-links');
+    btn.addEventListener('click', () => {
+      const open = nav.classList.toggle('open');
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  </script>
+</body>
+</html>
