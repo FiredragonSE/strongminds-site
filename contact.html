@@ -12,30 +12,31 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
-    <a class="brand" href="index.html"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="2" fill="#1c1915"/><path d="M8 23V9h3.2l4.8 9.1L20.8 9H24v14h-2.4v-9.2L17.4 23h-2.8l-4.2-9.2V23H8z" fill="#f3eee6"/></svg><span class="brand-name">Strong <span>Minds</span></span></a>
+    <a class="brand" href="index.html">Strong <span>Minds</span></a>
     <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="engagements.html">Engagements</a>
+    <nav class="nav-links">
+      <a href="engagements.html">Work</a>
       <a href="about.html">About</a>
-      <a href="contact.html" aria-current="page">Contact</a>
-      <a class="nav-cta" href="contact.html">Get in touch</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn" href="contact.html">Start</a>
     </nav>
   </header>
-  <main id="main">
+
+  <main>
     <div class="wrap page-hero">
-      <div class="kicker"><span>Contact</span><span>Stockholm</span></div>
-      <h1>Tell me the country, or the programme.</h1>
+      <div class="kicker">Contact</div>
+      <h1>Tell us the country, or the programme.</h1>
       <p class="lead">A short note is enough. Who you are, what you are trying to decide, and when you need it. If it is not something we should take, we will say so.</p>
     </div>
+
     <section class="section" style="padding-top: 10px;">
-      <div class="wrap split">
+      <div class="wrap" style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
         <div>
-          <p class="note">Call</p>
+          <p style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Call</p>
           <a class="phone" href="tel:+46763132544">+46 76 313 25 44</a>
           <p>Gergana Almquist, Ph.D.<br>Founder and CEO, Strongminds AB</p>
-          <p class="note">There is no public email on the site yet. The form copies what you wrote, so you can send it once you have an address. Until then, the phone is the reliable way.</p>
+          <p style="margin-top: 24px; color: var(--muted); font-size: 15px;">There is no public email on the site yet. The phone is the reliable way.</p>
         </div>
         <form id="brief">
           <label>Name<input name="name" required autocomplete="name"></label>
@@ -43,25 +44,28 @@
           <label>Company<input name="company" autocomplete="organization"></label>
           <label>What you need<textarea name="question" required placeholder="The country or programme, the decision, and when you need it."></textarea></label>
           <button class="btn" type="submit">Copy this note</button>
-          <p class="form-note" id="status" role="status"></p>
+          <p id="status" role="status" style="margin-top: 12px; font-size: 14px; color: var(--muted);"></p>
         </form>
       </div>
     </section>
   </main>
-  <footer>
-    <div class="wrap foot">
+
+  <footer class="footer">
+    <div class="wrap">
       <div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
       <div><a href="tel:+46763132544">+46 76 313 25 44</a></div>
     </div>
   </footer>
+
   <script>
     const btn = document.querySelector('.menu-btn');
     const nav = document.querySelector('.nav-links');
-    btn.addEventListener('click', () => {
-      const open = nav.classList.toggle('open');
-      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    const INBOX = "";
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
     document.getElementById('brief').addEventListener('submit', async (event) => {
       event.preventDefault();
       const data = new FormData(event.target);
@@ -75,12 +79,7 @@
       ].join("\n");
       const status = document.getElementById('status');
       try { await navigator.clipboard.writeText(text); } catch (err) {}
-      if (INBOX) {
-        window.location.href = "mailto:" + INBOX + "?subject=" + encodeURIComponent("Strong Minds — " + (data.get('company') || data.get('name'))) + "&body=" + encodeURIComponent(text);
-        status.textContent = "Opening your email app.";
-      } else {
-        status.textContent = "Copied. There is no public email yet — call +46 76 313 25 44, or paste this once you have an address.";
-      }
+      status.textContent = "Copied. Call +46 76 313 25 44, or paste this once you have an address.";
     });
   </script>
 </body>
