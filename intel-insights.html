@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Intel & Insights — Strong Minds</title>
+  <meta name="description" content="Sharp, actionable intelligence from Strong Minds. Market dynamics, feasibility, geopolitics, competitor analysis and valuations.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="index.html">Strong <span>Minds</span></a>
+    <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
+    <nav class="nav-links">
+      <a href="strategic-advisory.html">Strategic Advisory</a>
+      <a href="intel-insights.html">Intel & Insights</a>
+      <a href="global-growth.html">Global Growth</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn" href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap page-hero">
+      <div class="kicker">Intel & Insights</div>
+      <h1>Sharp, actionable intelligence.</h1>
+      <p class="lead">Our reports cover market dynamics, feasibility studies, geopolitical developments, investment due diligence, deep tech assessment and valuations. We blend human expertise with advanced data and analytical tools. We help you make sense of the information you already have and base your decisions on deep, detailed intelligence.</p>
+    </div>
+
+    <div class="wrap">
+      <div class="section-head" style="margin-top: 40px;">
+        <h2>What we can do for you</h2>
+      </div>
+      <div class="work-item">
+        <div class="num">01</div>
+        <div>
+          <h2>Market, industry and country analysis</h2>
+          <p>In-depth research into markets, sectors and regions to uncover real opportunities and risks. On-the-ground intel and advisory.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">02</div>
+        <div>
+          <h2>Political and stakeholder analysis</h2>
+          <p>Clear assessments of political landscapes, regulatory environments, and mapping of key decision-makers.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">03</div>
+        <div>
+          <h2>Competitor intelligence</h2>
+          <p>Detailed profiles and strategic analysis of existing and emerging competitors, and of your positioning among them.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">04</div>
+        <div>
+          <h2>Partner and acquisition targeting</h2>
+          <p>Identification, evaluation and recommendations for potential partners or acquisition targets.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">05</div>
+        <div>
+          <h2>Risk assessment</h2>
+          <p>Comprehensive evaluation of operational, political and market risks.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">06</div>
+        <div>
+          <h2>Location and feasibility studies</h2>
+          <p>Analysis of new locations, local partner options, and full feasibility checks for market entry.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">07</div>
+        <div>
+          <h2>New market and product feasibility</h2>
+          <p>Practical assessments for entering new markets, launching products, or expanding into new business areas.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">08</div>
+        <div>
+          <h2>Key player mapping</h2>
+          <p>Identification and strategic analysis of relevant industry players, influencers and decision-makers.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">09</div>
+        <div>
+          <h2>Investment and company valuation</h2>
+          <p>Professional valuation reports and due diligence support for investments and acquisitions.</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" style="padding-top: 60px;">
+      <div class="wrap" style="text-align: center;">
+        <p style="font-family: var(--serif); font-size: clamp(28px, 3.5vw, 40px); margin-bottom: 24px;">Clear market research and intelligence so you can move forward with confidence.</p>
+        <a class="btn" href="contact.html">Get in touch</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
+      <div><a href="contact.html">Contact</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('.nav-links');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  </script>
+</body>
+</html>
