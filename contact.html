@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Contact — Strong Minds</title>
-  <meta name="description" content="Call Gergana Almquist at Strong Minds on +46 76 313 25 44. Stockholm.">
+  <meta name="description" content="Contact Strong Minds. Call +46 76 313 25 44. Stockholm.">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,33 +16,33 @@
     <a class="brand" href="index.html">Strong <span>Minds</span></a>
     <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
     <nav class="nav-links">
-      <a href="engagements.html">Work</a>
-      <a href="about.html">About</a>
+      <a href="strategic-advisory.html">Strategic Advisory</a>
+      <a href="intel-insights.html">Intel & Insights</a>
+      <a href="global-growth.html">Global Growth</a>
       <a href="contact.html">Contact</a>
-      <a class="btn" href="contact.html">Start</a>
+      <a class="btn" href="contact.html">Contact</a>
     </nav>
   </header>
 
   <main>
     <div class="wrap page-hero">
       <div class="kicker">Contact</div>
-      <h1>Tell us the country, or the programme.</h1>
-      <p class="lead">A short note is enough. Who you are, what you are trying to decide, and when you need it. If it is not something we should take, we will say so.</p>
+      <h1>Get in touch.</h1>
+      <p class="lead">Call us today on +46 76 313 25 44.</p>
     </div>
 
     <section class="section" style="padding-top: 10px;">
       <div class="wrap" style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
         <div>
-          <p style="font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px;">Call</p>
           <a class="phone" href="tel:+46763132544">+46 76 313 25 44</a>
           <p>Gergana Almquist, Ph.D.<br>Founder and CEO, Strongminds AB</p>
-          <p style="margin-top: 24px; color: var(--muted); font-size: 15px;">There is no public email on the site yet. The phone is the reliable way.</p>
+          <p style="margin-top: 24px; color: var(--muted);">Stockholm · Org.nr 556911-0355</p>
         </div>
         <form id="brief">
           <label>Name<input name="name" required autocomplete="name"></label>
-          <label>Work email<input name="email" type="email" required autocomplete="email"></label>
+          <label>Email<input name="email" type="email" required autocomplete="email"></label>
           <label>Company<input name="company" autocomplete="organization"></label>
-          <label>What you need<textarea name="question" required placeholder="The country or programme, the decision, and when you need it."></textarea></label>
+          <label>Message<textarea name="question" required placeholder="How can we help?"></textarea></label>
           <button class="btn" type="submit">Copy this note</button>
           <p id="status" role="status" style="margin-top: 12px; font-size: 14px; color: var(--muted);"></p>
         </form>
@@ -70,7 +70,7 @@
       event.preventDefault();
       const data = new FormData(event.target);
       const text = [
-        "Strong Minds — first brief",
+        "Strong Minds — contact",
         "Name: " + data.get('name'),
         "Email: " + data.get('email'),
         "Company: " + (data.get('company') || "—"),
@@ -79,7 +79,7 @@
       ].join("\n");
       const status = document.getElementById('status');
       try { await navigator.clipboard.writeText(text); } catch (err) {}
-      status.textContent = "Copied. Call +46 76 313 25 44, or paste this once you have an address.";
+      status.textContent = "Copied. Call +46 76 313 25 44 or paste this when you have an address.";
     });
   </script>
 </body>

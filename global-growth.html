@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Growth — Strong Minds</title>
+  <meta name="description" content="Global growth support from Strong Minds. Market access, partnerships and execution across Europe and the Nordics.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="index.html">Strong <span>Minds</span></a>
+    <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
+    <nav class="nav-links">
+      <a href="strategic-advisory.html">Strategic Advisory</a>
+      <a href="intel-insights.html">Intel & Insights</a>
+      <a href="global-growth.html">Global Growth</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn" href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="wrap page-hero">
+      <div class="kicker">Global Growth</div>
+      <h1>From ambition to results.</h1>
+      <p class="lead">In a world of complexity and uncertainty, global growth needs more than a strong product. It needs a clear vision and precise execution. We turn opportunities into real results with strategic guidance and actionable insights, turning bold ambition into measurable outcomes.</p>
+    </div>
+
+    <div class="wrap">
+      <div class="section-head" style="margin-top: 40px;">
+        <h2>How we drive your growth</h2>
+      </div>
+      <div class="work-item">
+        <div class="num">01</div>
+        <div>
+          <h2>Strategic insight</h2>
+          <p>We create practical strategies to diversify your markets, reach new audiences, build strong partnerships and develop entry models tailored to your goals.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">02</div>
+        <div>
+          <h2>Market access</h2>
+          <p>With intelligence, energy and integrity we open doors to new markets, especially across Europe and the Nordics, wherever you choose to build your business.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">03</div>
+        <div>
+          <h2>Market intelligence</h2>
+          <p>We dig into competitive landscapes, customer trends and cultural dynamics to deliver clear insights that drive decisions.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">04</div>
+        <div>
+          <h2>Chart a clear path</h2>
+          <p>We design flexible, results-driven roadmaps with clear milestones so you can move, adapt and seize opportunities.</p>
+        </div>
+      </div>
+      <div class="work-item">
+        <div class="num">05</div>
+        <div>
+          <h2>Execute with precision</h2>
+          <p>We provide hands-on support so the strategy lands in your target markets.</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="section" style="padding-top: 60px;">
+      <div class="wrap" style="text-align: center;">
+        <p style="font-family: var(--serif); font-size: clamp(28px, 3.5vw, 40px); margin-bottom: 16px;">Ready to take your business further?</p>
+        <p style="margin-bottom: 28px; color: var(--muted);">Call us on +46 76 313 25 44</p>
+        <a class="btn" href="contact.html">Get in touch</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
+      <div><a href="contact.html">Contact</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('.nav-links');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  </script>
+</body>
+</html>
