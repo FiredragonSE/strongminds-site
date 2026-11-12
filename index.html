@@ -10,6 +10,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 48px; }
+    .gallery img { width: 100%; height: 220px; object-fit: cover; border-radius: 8px; }
+    @media (max-width: 700px) { .gallery { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
   <header class="nav">
@@ -19,13 +24,14 @@
       <a href="strategic-advisory.html">Strategic Advisory</a>
       <a href="intel-insights.html">Intel & Insights</a>
       <a href="global-growth.html">Global Growth</a>
+      <a href="about.html">About</a>
       <a href="contact.html">Contact</a>
       <a class="btn" href="contact.html">Contact</a>
     </nav>
   </header>
 
   <section class="hero">
-    <img src="https://images.unsplash.com/photo-1509356843151-3e7d96241e11?auto=format&fit=crop&w=2000&q=80" alt="Stockholm waterfront">
+    <img src="images/hero-stockholm.jpg" alt="Stockholm waterfront">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <div class="kicker">Stockholm</div>
@@ -63,6 +69,14 @@
           <p>Market access, partnerships and execution. Especially across Europe and the Nordics. One country or one programme at a time.</p>
           <a href="global-growth.html" style="display: inline-block; margin-top: 16px; color: var(--accent); font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase;">Read more</a>
         </div>
+      </div>
+      <div class="gallery">
+        <img src="images/bridge.jpg" alt="Bridge">
+        <img src="images/globen.jpg" alt="Globen">
+        <img src="images/palace.jpg" alt="Royal Palace">
+        <img src="images/escalator.jpg" alt="Escalator">
+        <img src="images/nordic.jpg" alt="Nordic landscape">
+        <img src="images/ocean.jpg" alt="Ocean">
       </div>
     </div>
   </section>
