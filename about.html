@@ -1,1 +1,130 @@
-TEAM_PAGE_CONTENT
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>About — Strong Minds</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .team-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 32px; margin-top: 32px; }
+    .person { background: var(--white); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(26,54,93,0.06); }
+    .person img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .person-body { padding: 20px 22px 24px; }
+    .person h3 { font-family: var(--serif); font-size: 22px; margin: 0 0 4px; }
+    .person .role { color: var(--accent); font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 10px; }
+    .person p { color: var(--muted); font-size: 15px; margin: 0; }
+    .section-label { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin: 48px 0 16px; }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="index.html">Strong <span>Minds</span></a>
+    <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
+    <nav class="nav-links">
+      <a href="strategic-advisory.html">Strategic Advisory</a>
+      <a href="intel-insights.html">Intel & Insights</a>
+      <a href="global-growth.html">Global Growth</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a class="btn" href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <section class="page-hero">
+    <div class="wrap">
+      <h1>Who we are</h1>
+      <p class="lead">A boutique team based in Stockholm. Three senior partners and four analysts. We combine strategic foresight, market intelligence and hands-on execution.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-label">Senior</div>
+      <div class="team-grid">
+        <div class="person">
+          <img src="images/gergana.jpg" alt="Gergana Almquist">
+          <div class="person-body">
+            <h3>Gergana Almquist, Ph.D.</h3>
+            <div class="role">Founder & CEO</div>
+            <p>Sets direction, leads client relationships and owns the strategic work. Ph.D. in Innovation Management from Copenhagen Business School.</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="images/erik.jpg" alt="Erik Bergman">
+          <div class="person-body">
+            <h3>Erik Bergman</h3>
+            <div class="role">Chief Revenue Officer</div>
+            <p>Owns commercial growth, partnerships and the path from insight to mandate. Responsible for pipeline and client acquisition.</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="images/louise.jpg" alt="Louise Lundmark">
+          <div class="person-body">
+            <h3>Louise Lundmark</h3>
+            <div class="role">Head of Delivery</div>
+            <p>Runs engagement delivery. Makes sure research, analysis and recommendations land on time and are usable.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Analysts</div>
+      <div class="team-grid">
+        <div class="person">
+          <img src="images/anna.jpg" alt="Anna Lindqvist">
+          <div class="person-body">
+            <h3>Anna Lindqvist</h3>
+            <div class="role">Market Intelligence Analyst</div>
+            <p>Builds market, competitor and stakeholder maps. Turns raw information into structured intelligence.</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="images/johan.jpg" alt="Johan Ek">
+          <div class="person-body">
+            <h3>Johan Ek</h3>
+            <div class="role">Research Associate</div>
+            <p>Runs feasibility studies, due diligence support and country-level research for entry and bid work.</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="images/maja.jpg" alt="Maja Holm">
+          <div class="person-body">
+            <h3>Maja Holm</h3>
+            <div class="role">Growth Associate</div>
+            <p>Supports go-to-market work, partner identification and the execution side of market access.</p>
+          </div>
+        </div>
+        <div class="person">
+          <img src="images/oscar.jpg" alt="Oscar Berg">
+          <div class="person-body">
+            <h3>Oscar Berg</h3>
+            <div class="role">Strategic Analyst</div>
+            <p>Works on growth plans, investment framing and the narratives that support stakeholder engagement.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
+      <div><a href="contact.html">Contact</a> · <a href="tel:+46763132544">+46 76 313 25 44</a></div>
+    </div>
+  </footer>
+
+  <script>
+    const btn = document.querySelector('.menu-btn');
+    const nav = document.querySelector('.nav-links');
+    if (btn && nav) {
+      btn.addEventListener('click', () => {
+        const open = nav.classList.toggle('open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+    }
+  </script>
+</body>
+</html>
