@@ -1,100 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Strategic Advisory — Strong Minds</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="nav">
-    <a class="brand" href="index.html">Strong <span>Minds</span></a>
-    <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
-    <nav class="nav-links">
-      <a href="strategic-advisory.html">Strategic Advisory</a>
-      <a href="intel-insights.html">Intel & Insights</a>
-      <a href="global-growth.html">Global Growth</a>
-      <a href="contact.html">Contact</a>
-      <a class="btn" href="contact.html">Contact</a>
-    </nav>
-  </header>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Strategic Advisory — Strong Minds</title>
+<meta name="theme-color" content="#0463CA">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<header><div class="wrap bar">
+<a class="logo" href="index.html">Strong <span>Minds</span></a>
+<button class="menu" type="button" onclick="document.getElementById('nav').classList.toggle('open')">Menu</button>
+<nav id="nav">
+<a href="strategic-advisory.html">Strategic Advisory</a>
+<a href="intel-insights.html">Intel & Insights</a>
+<a href="global-growth.html">Accelerate Growth</a>
+<a href="about.html">About</a>
+<a class="btn" href="contact.html">Contact</a>
+</nav></div></header>
 
-  <section class="page-hero">
-    <div class="wrap">
-      <h1>Strategic Advisory</h1>
-      <p class="lead">We give strategic advice and foresight for the decisions that actually matter. The goal is simple: help you act instead of reacting. That means high-stakes choices, growth plans, investment decisions and the story you tell stakeholders.</p>
-    </div>
-  </section>
+<section class="hero"><img src="images/finance.jpg" alt="Financial district"><div class="shade"></div>
+<div class="wrap copy"><p class="kicker">Strategic Advisory</p><h1>Decisions that actually matter.</h1>
+<p class="lead">We give strategic advice and foresight so you can act instead of reacting. High-stakes choices, growth plans, investment decisions and the story you tell stakeholders.</p></div></section>
+<section><div class="wrap row"><div>
+<div class="item"><p class="num">01</p><div><h2>Guide high-stakes decisions</h2><p class="muted">We help you see critical choices clearly, including the macro and geopolitical factors that change the picture.</p></div></div>
+<div class="item"><p class="num">02</p><div><h2>Unlock actionable insights</h2><p class="muted">We dig into markets and give you practical intelligence you can use. Not a slide deck that sits in a folder.</p></div></div>
+<div class="item"><p class="num">03</p><div><h2>Craft tailored growth plans</h2><p class="muted">We design roadmaps to expand the business, matched to your ambitions and what the market will actually allow.</p></div></div>
+<div class="item"><p class="num">04</p><div><h2>Optimize investment choices</h2><p class="muted">We help you put capital where it has a real chance to grow, by reading where current developments are heading.</p></div></div>
+<div class="item"><p class="num">05</p><div><h2>Amplify your voice</h2><p class="muted">We shape the narrative that engages the right stakeholders and strengthens your position.</p></div></div>
+<div class="item"><p class="num">06</p><div><h2>Harness emerging trends</h2><p class="muted">We spot forward-looking opportunities, including in M&A, so you can move while others are still watching.</p></div></div>
+<p><a class="btn" href="contact.html">Get in touch</a></p>
+</div><img class="side" src="images/street.jpg" alt="City street"></div></section>
 
-  <section class="section">
-    <div class="wrap">
-      <h2 style="font-family: var(--serif); font-size: 32px; margin-bottom: 24px;">What we do</h2>
-      <div class="work-item">
-        <div class="num">01</div>
-        <div>
-          <h2>Guide high-stakes decisions</h2>
-          <p>We help you see critical choices clearly, including the macro and geopolitical factors that change the picture.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">02</div>
-        <div>
-          <h2>Unlock actionable insights</h2>
-          <p>We dig into markets and give you practical intelligence you can use. Not a slide deck that sits in a folder.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">03</div>
-        <div>
-          <h2>Craft tailored growth plans</h2>
-          <p>We design roadmaps to expand the business, matched to your ambitions and what the market will actually allow.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">04</div>
-        <div>
-          <h2>Optimize investment choices</h2>
-          <p>We help you put capital where it has a real chance to grow, by reading where current developments are heading.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">05</div>
-        <div>
-          <h2>Amplify your voice</h2>
-          <p>We shape the narrative that engages the right stakeholders and strengthens your position.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">06</div>
-        <div>
-          <h2>Harness emerging trends</h2>
-          <p>We spot forward-looking opportunities, including in M&A, so you can move while others are still watching.</p>
-        </div>
-      </div>
-      <p style="margin-top: 48px; font-size: 18px;"><a href="contact.html" style="color: var(--accent);">Get in touch</a> if you have a decision or a growth path you want to talk through.</p>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="wrap">
-      <div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
-      <div><a href="contact.html">Contact</a> · <a href="tel:+46763132544">+46 76 313 25 44</a></div>
-    </div>
-  </footer>
-
-  <script>
-    const btn = document.querySelector('.menu-btn');
-    const nav = document.querySelector('.nav-links');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    }
-  </script>
-</body>
-</html>
+<footer><div class="wrap foot"><div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
+<div><a href="contact.html">Contact</a> · <a href="tel:+46763132544">+46 76 313 25 44</a></div></div></footer>
+<script> </script>
+</body></html>

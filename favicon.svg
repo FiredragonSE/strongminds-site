@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="2" fill="#1c1915"/>
-  <path d="M8 23V9h3.2l4.8 9.1L20.8 9H24v14h-2.4v-9.2L17.4 23h-2.8l-4.2-9.2V23H8z" fill="#f3eee6"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#0463CA"/><text x="16" y="22" text-anchor="middle" font-family="Georgia" font-size="16" fill="white">S</text></svg>

@@ -1,93 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Global Growth — Strong Minds</title>
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-  <header class="nav">
-    <a class="brand" href="index.html">Strong <span>Minds</span></a>
-    <button class="menu-btn" type="button" aria-expanded="false">Menu</button>
-    <nav class="nav-links">
-      <a href="strategic-advisory.html">Strategic Advisory</a>
-      <a href="intel-insights.html">Intel & Insights</a>
-      <a href="global-growth.html">Global Growth</a>
-      <a href="contact.html">Contact</a>
-      <a class="btn" href="contact.html">Contact</a>
-    </nav>
-  </header>
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accelerate Growth — Strong Minds</title>
+<meta name="theme-color" content="#0463CA">
+<link rel="icon" href="favicon.svg">
+<link rel="stylesheet" href="styles.css">
+</head><body>
+<header><div class="wrap bar">
+<a class="logo" href="index.html">Strong <span>Minds</span></a>
+<button class="menu" type="button" onclick="document.getElementById('nav').classList.toggle('open')">Menu</button>
+<nav id="nav">
+<a href="strategic-advisory.html">Strategic Advisory</a>
+<a href="intel-insights.html">Intel & Insights</a>
+<a href="global-growth.html">Accelerate Growth</a>
+<a href="about.html">About</a>
+<a class="btn" href="contact.html">Contact</a>
+</nav></div></header>
 
-  <section class="page-hero">
-    <div class="wrap">
-      <h1>Global Growth</h1>
-      <p class="lead">Global growth needs a clear vision and precise execution. We turn opportunities into results with strategic guidance and hands-on work, especially across Europe and the Nordics. One country or one programme at a time.</p>
-    </div>
-  </section>
+<section class="hero"><img src="images/bridge.jpg" alt="Night traffic"><div class="shade"></div>
+<div class="wrap copy"><p class="kicker">Growth</p><h1>Accelerate Growth</h1>
+<p class="lead">We do the hands-on selling. Prospecting, outreach, pipeline and closing.</p></div></section>
+<section><div class="wrap">
+<img class="photo" src="images/city.jpg" alt="Light trails through the city" style="margin-top:0">
+<div class="item"><p class="num">01</p><div><h2>Sales strategy</h2><p class="muted">We implement the sales strategy for you. Not a document you have to run yourself.</p></div></div>
+<div class="item"><p class="num">02</p><div><h2>Prospecting</h2><p class="muted">We find the clients who are actually relevant.</p></div></div>
+<div class="item"><p class="num">03</p><div><h2>Outreach</h2><p class="muted">We reach out to them.</p></div></div>
+<div class="item"><p class="num">04</p><div><h2>Pipeline</h2><p class="muted">We fill your pipeline.</p></div></div>
+<div class="item"><p class="num">05</p><div><h2>Close</h2><p class="muted">We close deals.</p></div></div>
+<p class="intro">Call us on <a href="tel:+46763132544">+46 76 313 25 44</a> if you want to talk about a market.</p>
+</div></section>
 
-  <section class="section">
-    <div class="wrap">
-      <h2 style="font-family: var(--serif); font-size: 32px; margin-bottom: 24px;">How we work</h2>
-      <div class="work-item">
-        <div class="num">01</div>
-        <div>
-          <h2>Strategic insight</h2>
-          <p>We create strategies to diversify markets, reach new audiences, build partnerships and find entry models that fit your goals.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">02</div>
-        <div>
-          <h2>Market access</h2>
-          <p>We open doors to new markets around the world, especially across Europe and the Nordics.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">03</div>
-        <div>
-          <h2>Market intelligence</h2>
-          <p>We dig into competitive landscapes, consumer trends and cultural dynamics so decisions are based on something real.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">04</div>
-        <div>
-          <h2>Chart a path</h2>
-          <p>We design flexible roadmaps with clear milestones so you can move and adapt.</p>
-        </div>
-      </div>
-      <div class="work-item">
-        <div class="num">05</div>
-        <div>
-          <h2>Execute</h2>
-          <p>We stay hands-on so the strategy actually lands in the market. We do not set up an office for you.</p>
-        </div>
-      </div>
-      <p style="margin-top: 48px; font-size: 18px;">Call us on <a href="tel:+46763132544" style="color: var(--accent);">+46 76 313 25 44</a> if you want to talk about a specific market or programme.</p>
-    </div>
-  </section>
-
-  <footer class="footer">
-    <div class="wrap">
-      <div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
-      <div><a href="contact.html">Contact</a> · <a href="tel:+46763132544">+46 76 313 25 44</a></div>
-    </div>
-  </footer>
-
-  <script>
-    const btn = document.querySelector('.menu-btn');
-    const nav = document.querySelector('.nav-links');
-    if (btn && nav) {
-      btn.addEventListener('click', () => {
-        const open = nav.classList.toggle('open');
-        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-    }
-  </script>
-</body>
-</html>
+<footer><div class="wrap foot"><div>Strongminds AB · Org.nr 556911-0355 · Stockholm</div>
+<div><a href="contact.html">Contact</a> · <a href="tel:+46763132544">+46 76 313 25 44</a></div></div></footer>
+<script> </script>
+</body></html>
