@@ -29,11 +29,17 @@
 <button class="btn" type="submit">Send</button>
 <p class="muted" id="note-status"></p>
 </form>
-<p style="text-align:center;font-size:.9rem;margin:1.5rem 0 0">Call us on: <a style="text-decoration:none" href="tel:+46763132544">+46 76 313 25 44</a></p>
+<p id="call" style="text-align:center;font-size:.9rem;margin:1.5rem 0 0">Call us on: <a id="tel" style="text-decoration:none" href="#"></a></p>
 <img class="photo" src="images/header-fjord.jpg" alt="Nordic fjord"></div></section>
 
 <footer><div class="wrap" style="text-align:center">Strongminds AB · Org.nr 556911-0355 · Stockholm</div></footer>
 <script>
+(function () {
+  var n = String.fromCharCode(43,52,54,32,55,54,32,51,49,51,32,50,53,32,52,52);
+  var a = document.getElementById('tel');
+  a.textContent = n;
+  a.setAttribute('href', 'tel:' + n.replace(/\s/g, ''));
+})();
 document.getElementById('note').onsubmit = async function (e) {
   e.preventDefault();
   var f = e.target;
