@@ -54,10 +54,8 @@ footer { border-top:1px solid var(--line); padding:2rem 0; color:var(--muted); f
 form { display:flex; flex-direction:column; gap:1rem; }
 label { font-size:.9rem; }
 input, textarea { width:100%; margin-top:.3rem; border:1px solid var(--line); background:#fff; padding:.75rem; font:inherit; }
-.contact { display:grid; gap:2rem; }
-@media (min-width:800px) { .contact { grid-template-columns:220px 1fr 1fr; } }
-.portrait { width:100%; max-width:220px; aspect-ratio:3/4; object-fit:cover; border-radius:.75rem; }
-.phone { font-family:Newsreader,Georgia,serif; font-size:2rem; text-decoration:none; }
+.contact { max-width:42rem; margin:0 auto; }
+.contact .btn { width:100%; border:0; cursor:pointer; font:inherit; letter-spacing:.14em; text-transform:uppercase; }
 @media (max-width:799px) {
   nav { display:none; }
   nav.open { display:flex; flex-direction:column; align-items:flex-start; padding:0 0 1rem; }
