@@ -24,11 +24,14 @@
   .rep-hero p { margin:.8rem 0 0; opacity:.85; max-width:40rem; }
   .rep main { margin-top:-3.6rem; padding-bottom:3rem; }
   .kpis { display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); }
-  @media (min-width:900px) { .kpis { grid-template-columns:repeat(4,1fr); } }
+  @media (min-width:1000px) { .kpis { grid-template-columns:repeat(5,1fr); } }
+  .kpis .kpi:last-child:nth-child(odd) { grid-column:1 / -1; }
+  @media (min-width:1000px) { .kpis .kpi:last-child:nth-child(odd) { grid-column:auto; } }
   .kpi { background:var(--card); border-top:4px solid var(--accent); border-radius:.4rem; padding:1.2rem 1.2rem 1.1rem; box-shadow:0 8px 24px rgba(18,35,63,.12); }
   .kpi .lbl { font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0; }
   .kpi .big { font-family:Newsreader,Georgia,serif; font-size:clamp(2.4rem,6vw,3.5rem); line-height:1; color:var(--ink); margin:.5rem 0 .4rem; }
   .kpi .sub { font-size:.85rem; color:var(--muted); margin:0; }
+  .kpi.no { border-top-color:#8a98ab; }
   .kpi.hot { border-top-color:#12233f; background:#12233f; }
   .kpi.hot .lbl, .kpi.hot .sub { color:rgba(255,255,255,.75); }
   .kpi.hot .big { color:#fff; }
@@ -37,7 +40,7 @@
   .rep .hint { color:var(--muted); font-size:.9rem; margin:0 0 1.2rem; }
   .mgrid { display:grid; gap:1rem; }
   @media (min-width:700px) { .mgrid { grid-template-columns:repeat(2,1fr); } }
-  @media (min-width:1000px) { .mgrid { grid-template-columns:repeat(4,1fr); } }
+  @media (min-width:1000px) { .mgrid { grid-template-columns:repeat(5,1fr); } }
   .mcard { background:var(--card); border-radius:.4rem; padding:1.1rem 1.2rem 1.2rem; box-shadow:0 1px 2px rgba(18,35,63,.08); }
   .mcard h3 { font-family:Outfit,system-ui,sans-serif; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 .9rem; font-weight:500; }
   .bar-row { display:grid; grid-template-columns:2.2rem 1fr 2.8rem; align-items:center; gap:.6rem; margin:.5rem 0; font-size:.9rem; }
@@ -60,6 +63,17 @@
   .warm th, .warm td { text-align:right; padding:.45rem .2rem; border-top:1px solid var(--line); }
   .warm th:first-child, .warm td:first-child { text-align:left; }
   .warm th { font-weight:500; color:var(--muted); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; border-top:0; }
+  .chips { display:flex; flex-wrap:wrap; gap:.5rem; margin:.6rem 0 0; }
+  .chip { background:#fff; border:1px solid var(--line); border-radius:99px; padding:.3rem .8rem; font-size:.9rem; }
+  .chip.rfq { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.35); color:#fff; }
+  .chip.get { border-color:var(--accent); color:var(--accent); font-weight:500; }
+  .panel2 { background:var(--card); border-radius:.4rem; box-shadow:0 1px 2px rgba(18,35,63,.08); padding:1.2rem 1.3rem 1.4rem; }
+  .panel2 h4 { font-family:Outfit,system-ui,sans-serif; font-weight:500; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:1.2rem 0 0; }
+  .rfqbox { background:#12233f; color:#fff; border-radius:.4rem; padding:1.2rem 1.3rem 1.4rem; }
+  .rfqbox .hint { color:rgba(255,255,255,.75); margin-bottom:.4rem; }
+  .rfqbox h2 { color:#fff; }
+  .mcard .bignum { font-family:Newsreader,Georgia,serif; font-size:3rem; line-height:1; color:#12233f; margin:.2rem 0 .4rem; }
+  .mcard .small { color:var(--muted); font-size:.85rem; margin:0; }
   .notes { margin-top:2.4rem; color:var(--muted); font-size:.82rem; border-top:1px solid var(--line); padding-top:1rem; }
   .notes p { margin:.3rem 0; }
   .rep-top { background:rgba(243,246,251,.92); border-bottom:1px solid var(--line); }
@@ -116,26 +130,36 @@ function showReport(stats) {
   var html = '<div class="kpis">' +
     kpi("", "Outreaches", t.outreaches, "first emails, to " + nf(t.companies) + " companies") +
     kpi("", "Follow-ups", t.followups, "follow-up emails to " + nf(t.followupPeople) + " people") +
-    kpi("", "Warm contacts", t.warm, nf(t.positive) + " positive, " + nf(t.notNegative) + " &ldquo;contact us when the need arises&rdquo;") +
-    kpi("hot", "RFQ potential", t.rfq, "companies that could send an RFQ") +
+    kpi("", "Warm contacts", t.warm, nf(t.positive) + " interested, " + nf(t.notNegative) + " will contact us when the need arises") +
+    kpi("no", "Hard nos", t.hardNo, "replied not interested") +
+    kpi("hot", "RFQ potential", t.rfq, "companies we are pursuing for an RFQ") +
     '</div>';
-  html += '<div class="sec"><h2>Month by month</h2><p class="hint">Sep, Oct and Nov (to 17 Nov). Warm contacts and RFQ potential are counted in the month of the first reply.</p><div class="mgrid">' +
+  html += '<div class="sec"><h2>Month by month</h2><p class="hint">Sep, Oct and Nov (to 17 Nov). Warm contacts and hard nos are counted in the month of the reply.</p><div class="mgrid">' +
     '<div class="mcard"><h3>Outreaches</h3>' + bars(ms, "outreaches") + '</div>' +
     '<div class="mcard"><h3>Follow-ups</h3>' + bars(ms, "followups") + '</div>' +
     '<div class="mcard"><h3>Warm contacts</h3>' + bars(ms, "warm") + '</div>' +
-    '<div class="mcard"><h3>RFQ potential</h3>' + bars(ms, "rfq") + '</div></div></div>';
-  var lab = {}; ms.forEach(function (m) { lab[m.key] = m.label; });
-  html += '<div class="sec"><div class="twocol"><div><h2>RFQ potential</h2><p class="hint">From positive responses and meetings.</p><div class="list">' +
-    stats.rfq.map(function (r) {
-      return '<div class="it"><div><b>' + esc(r.company) + '</b><span class="n">' + esc(r.note) + '</span></div><span class="tag">' + esc(lab[r.month] || "") + '</span></div>';
-    }).join("") + '</div></div>' +
-    '<div><h2>Warm contacts</h2><p class="hint">Positive replies plus polite &ldquo;not now, contact us later&rdquo; replies.</p><div class="warm"><p class="big">' + nf(t.warm) + '</p>' +
-    '<table><tr><th></th><th>Positive</th><th>Not now</th><th>Total</th></tr>' +
-    ms.map(function (m) { return '<tr><td>' + esc(m.label) + '</td><td>' + m.positive + '</td><td>' + m.notNegative + '</td><td>' + m.warm + '</td></tr>'; }).join("") +
-    '<tr><td><b>Total</b></td><td><b>' + t.positive + '</b></td><td><b>' + t.notNegative + '</b></td><td><b>' + t.warm + '</b></td></tr></table></div></div></div></div>';
+    '<div class="mcard"><h3>Hard nos</h3>' + bars(ms, "hardNo") + '</div>' +
+    '<div class="mcard"><h3>RFQ potential</h3><p class="bignum">' + nf(t.rfq) + '</p><p class="small">Our own list, so no month split.</p></div></div></div>';
+  html += '<div class="sec"><div class="rfqbox"><h2>RFQ potential &middot; ' + nf(t.rfq) + '</h2><p class="hint">Companies we are pursuing for an RFQ.</p><div class="chips">' +
+    stats.rfq.map(function (n) { return '<span class="chip rfq">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
+  var TD = ' style="text-align:right;border-top:1px solid var(--line);padding:.4rem 0"', TL = ' style="padding:.4rem 0;border-top:1px solid var(--line)"';
+  html += '<div class="sec"><div class="panel2"><h2>Warm contacts &middot; ' + nf(t.warm) + '</h2><p class="hint">Interested, or &ldquo;not now, we will contact you when the need arises&rdquo;. Not RFQ potential.</p>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase"><th style="text-align:left;font-weight:500"></th><th style="text-align:right;font-weight:500">Interested</th><th style="text-align:right;font-weight:500">Will contact us</th><th style="text-align:right;font-weight:500">Total</th></tr>' +
+    ms.map(function (m) { return '<tr><td' + TL + '>' + esc(m.label) + '</td><td' + TD + '>' + m.positive + '</td><td' + TD + '>' + m.notNegative + '</td><td' + TD + '>' + m.warm + '</td></tr>'; }).join("") +
+    '<tr><td' + TL + '><b>Total</b></td><td' + TD + '><b>' + t.positive + '</b></td><td' + TD + '><b>' + t.notNegative + '</b></td><td' + TD + '><b>' + t.warm + '</b></td></tr></table>' +
+    '<h4>Interested (' + stats.warmPositive.length + ')</h4><div class="chips">' +
+    stats.warmPositive.map(function (n) { return '<span class="chip">' + esc(n) + '</span>'; }).join("") + '</div>' +
+    '<h4>Will contact us when the need arises (' + stats.warmNotNow.length + ')</h4><div class="chips">' +
+    stats.warmNotNow.map(function (n) { return '<span class="chip' + (n === "Getinge" ? " get" : "") + '">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
+  var HM = { sep: "September", oct: "October", nov: "November (to 17 Nov)" };
+  html += '<div class="sec"><div class="panel2"><h2>Hard nos &middot; ' + nf(t.hardNo) + '</h2><p class="hint">Companies that replied that they are not interested. Not in the warm or RFQ lists.</p>' +
+    ["sep", "oct", "nov"].map(function (k) {
+      var l = stats.hardNoList[k] || [];
+      return '<h4>' + esc(HM[k]) + ' (' + l.length + ')</h4><div class="chips">' + l.map(function (n) { return '<span class="chip">' + esc(n) + '</span>'; }).join("") + '</div>';
+    }).join("") + '</div></div>';
   html += '<div class="notes"><p>Totals count each company or person once, so they can be lower than the sum of the months.</p>' +
     '<p>The campaign began on 27 Aug; the ' + stats.before.outreaches + ' outreaches and ' + stats.before.followups + ' follow-ups sent ' + esc(stats.before.label) + ' are not included above. About ' + nf(t.bounced) + ' outreach emails bounced and are counted as sent.</p>' +
-    '<p>Replies are classified by hand. Suppliers and competitors are excluded from all figures.</p></div>';
+    '<p>Replies are classified by hand and each company is in only one of RFQ potential, warm contacts or hard nos. Replies from before 1 Sep are not counted. Suppliers and competitors are excluded from all figures.</p></div>';
   body.innerHTML = html;
 }
 document.getElementById("gate").onsubmit = async function (e) {
