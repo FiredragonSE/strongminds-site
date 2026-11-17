@@ -65,7 +65,7 @@
   .warm th { font-weight:500; color:var(--muted); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; border-top:0; }
   .chips { display:flex; flex-wrap:wrap; gap:.5rem; margin:.6rem 0 0; }
   .chip { background:#fff; border:1px solid var(--line); border-radius:99px; padding:.3rem .8rem; font-size:.9rem; }
-  .chip.rfq { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.35); color:#fff; }
+  .chip.rfq { background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.35); color:#fff; font-size:1.05rem; padding:.45rem 1rem; }
   .chip.get { border-color:var(--accent); color:var(--accent); font-weight:500; }
   .panel2 { background:var(--card); border-radius:.4rem; box-shadow:0 1px 2px rgba(18,35,63,.08); padding:1.2rem 1.3rem 1.4rem; }
   .panel2 h4 { font-family:Outfit,system-ui,sans-serif; font-weight:500; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:1.2rem 0 0; }
@@ -130,7 +130,7 @@ function showReport(stats) {
   var html = '<div class="kpis">' +
     kpi("", "Outreaches", t.outreaches, "first emails, to " + nf(t.companies) + " companies") +
     kpi("", "Follow-ups", t.followups, "follow-up emails to " + nf(t.followupPeople) + " people") +
-    kpi("", "Warm contacts", t.warm, nf(t.positive) + " interested, " + nf(t.notNegative) + " will contact us when the need arises") +
+    kpi("", "Warm contacts", t.warm, "will contact us when the need arises") +
     kpi("no", "Hard nos", t.hardNo, "replied not interested") +
     kpi("hot", "RFQ potential", t.rfq, "companies we are pursuing for an RFQ") +
     '</div>';
@@ -140,17 +140,15 @@ function showReport(stats) {
     '<div class="mcard"><h3>Warm contacts</h3>' + bars(ms, "warm") + '</div>' +
     '<div class="mcard"><h3>Hard nos</h3>' + bars(ms, "hardNo") + '</div>' +
     '<div class="mcard"><h3>RFQ potential</h3><p class="bignum">' + nf(t.rfq) + '</p><p class="small">Our own list, so no month split.</p></div></div></div>';
-  html += '<div class="sec"><div class="rfqbox"><h2>RFQ potential &middot; ' + nf(t.rfq) + '</h2><p class="hint">Companies we are pursuing for an RFQ.</p><div class="chips">' +
+  html += '<div class="sec"><div class="rfqbox"><h2>RFQ potential &middot; ' + nf(t.rfq) + '</h2><p class="hint">Our current RFQ potential.</p><div class="chips">' +
     stats.rfq.map(function (n) { return '<span class="chip rfq">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
   var TD = ' style="text-align:right;border-top:1px solid var(--line);padding:.4rem 0"', TL = ' style="padding:.4rem 0;border-top:1px solid var(--line)"';
-  html += '<div class="sec"><div class="panel2"><h2>Warm contacts &middot; ' + nf(t.warm) + '</h2><p class="hint">Interested, or &ldquo;not now, we will contact you when the need arises&rdquo;. Not RFQ potential.</p>' +
-    '<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase"><th style="text-align:left;font-weight:500"></th><th style="text-align:right;font-weight:500">Interested</th><th style="text-align:right;font-weight:500">Will contact us</th><th style="text-align:right;font-weight:500">Total</th></tr>' +
-    ms.map(function (m) { return '<tr><td' + TL + '>' + esc(m.label) + '</td><td' + TD + '>' + m.positive + '</td><td' + TD + '>' + m.notNegative + '</td><td' + TD + '>' + m.warm + '</td></tr>'; }).join("") +
-    '<tr><td' + TL + '><b>Total</b></td><td' + TD + '><b>' + t.positive + '</b></td><td' + TD + '><b>' + t.notNegative + '</b></td><td' + TD + '><b>' + t.warm + '</b></td></tr></table>' +
-    '<h4>Interested (' + stats.warmPositive.length + ')</h4><div class="chips">' +
-    stats.warmPositive.map(function (n) { return '<span class="chip">' + esc(n) + '</span>'; }).join("") + '</div>' +
-    '<h4>Will contact us when the need arises (' + stats.warmNotNow.length + ')</h4><div class="chips">' +
-    stats.warmNotNow.map(function (n) { return '<span class="chip' + (n === "Getinge" ? " get" : "") + '">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
+  html += '<div class="sec"><div class="panel2"><h2>Warm contacts &middot; ' + nf(t.warm) + '</h2><p class="hint">&ldquo;Will contact us when the need arises.&rdquo; Not RFQ potential.</p>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase"><th style="text-align:left;font-weight:500">Month of reply</th><th style="text-align:right;font-weight:500">Warm contacts</th></tr>' +
+    ms.map(function (m) { return '<tr><td' + TL + '>' + esc(m.full) + '</td><td' + TD + '>' + m.warm + '</td></tr>'; }).join("") +
+    '<tr><td' + TL + '><b>Total</b></td><td' + TD + '><b>' + t.warm + '</b></td></tr></table>' +
+    '<div class="chips" style="margin-top:1.2rem">' +
+    stats.warm.map(function (n) { return '<span class="chip' + (n === "Getinge" ? " get" : "") + '">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
   var HM = { sep: "September", oct: "October", nov: "November (to 17 Nov)" };
   html += '<div class="sec"><div class="panel2"><h2>Hard nos &middot; ' + nf(t.hardNo) + '</h2><p class="hint">Companies that replied that they are not interested. Not in the warm or RFQ lists.</p>' +
     ["sep", "oct", "nov"].map(function (k) {
