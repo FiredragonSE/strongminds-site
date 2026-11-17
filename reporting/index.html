@@ -16,6 +16,53 @@
   .panel form { display:flex; flex-direction:column; gap:.8rem; margin-top:1.4rem; }
   .panel input { width:100%; border:1px solid var(--line); padding:.8rem; font:inherit; }
   .panel .btn { width:100%; }
+
+  .rep { display:none; }
+  .rep.on { display:block; }
+  .rep-hero { background:linear-gradient(135deg,#0b1d3a 0%,#12233f 55%,#0463CA 160%); color:#fff; padding:3.2rem 0 5.5rem; }
+  .rep-hero h1 { font-size:clamp(2.2rem,5vw,3.4rem); max-width:none; }
+  .rep-hero p { margin:.8rem 0 0; opacity:.85; max-width:40rem; }
+  .rep main { margin-top:-3.6rem; padding-bottom:3rem; }
+  .kpis { display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); }
+  @media (min-width:900px) { .kpis { grid-template-columns:repeat(4,1fr); } }
+  .kpi { background:var(--card); border-top:4px solid var(--accent); border-radius:.4rem; padding:1.2rem 1.2rem 1.1rem; box-shadow:0 8px 24px rgba(18,35,63,.12); }
+  .kpi .lbl { font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0; }
+  .kpi .big { font-family:Newsreader,Georgia,serif; font-size:clamp(2.4rem,6vw,3.5rem); line-height:1; color:var(--ink); margin:.5rem 0 .4rem; }
+  .kpi .sub { font-size:.85rem; color:var(--muted); margin:0; }
+  .kpi.hot { border-top-color:#12233f; background:#12233f; }
+  .kpi.hot .lbl, .kpi.hot .sub { color:rgba(255,255,255,.75); }
+  .kpi.hot .big { color:#fff; }
+  .rep h2 { font-size:clamp(1.5rem,3vw,2rem); margin:0 0 .3rem; }
+  .rep .sec { padding:2.6rem 0 0; }
+  .rep .hint { color:var(--muted); font-size:.9rem; margin:0 0 1.2rem; }
+  .mgrid { display:grid; gap:1rem; }
+  @media (min-width:700px) { .mgrid { grid-template-columns:repeat(2,1fr); } }
+  @media (min-width:1000px) { .mgrid { grid-template-columns:repeat(4,1fr); } }
+  .mcard { background:var(--card); border-radius:.4rem; padding:1.1rem 1.2rem 1.2rem; box-shadow:0 1px 2px rgba(18,35,63,.08); }
+  .mcard h3 { font-family:Outfit,system-ui,sans-serif; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 .9rem; font-weight:500; }
+  .bar-row { display:grid; grid-template-columns:2.2rem 1fr 2.8rem; align-items:center; gap:.6rem; margin:.5rem 0; font-size:.9rem; }
+  .bar-row .track { background:#e8eef7; border-radius:.25rem; height:1.1rem; overflow:hidden; }
+  .bar-row .fill { height:100%; background:var(--accent); border-radius:.25rem; min-width:2px; }
+  .bar-row:nth-child(3) .fill { background:#3d8ae0; }
+  .bar-row:nth-child(4) .fill { background:#12233f; }
+  .bar-row .v { text-align:right; font-weight:500; }
+  .twocol { display:grid; gap:1.4rem; }
+  @media (min-width:900px) { .twocol { grid-template-columns:1.5fr 1fr; align-items:start; } }
+  .list { background:var(--card); border-radius:.4rem; box-shadow:0 1px 2px rgba(18,35,63,.08); }
+  .list .it { display:flex; justify-content:space-between; gap:1rem; padding:.85rem 1.1rem; border-top:1px solid var(--line); }
+  .list .it:first-child { border-top:0; }
+  .list .it b { font-weight:500; }
+  .list .it span.n { color:var(--muted); font-size:.88rem; display:block; }
+  .tag { flex:none; align-self:flex-start; font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); background:#e6f0fb; border-radius:99px; padding:.2rem .6rem; }
+  .warm { background:var(--card); border-radius:.4rem; box-shadow:0 1px 2px rgba(18,35,63,.08); padding:1.2rem; }
+  .warm .big { font-family:Newsreader,Georgia,serif; font-size:3rem; line-height:1; color:var(--accent); margin:0; }
+  .warm table { width:100%; border-collapse:collapse; margin-top:1rem; font-size:.9rem; }
+  .warm th, .warm td { text-align:right; padding:.45rem .2rem; border-top:1px solid var(--line); }
+  .warm th:first-child, .warm td:first-child { text-align:left; }
+  .warm th { font-weight:500; color:var(--muted); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; border-top:0; }
+  .notes { margin-top:2.4rem; color:var(--muted); font-size:.82rem; border-top:1px solid var(--line); padding-top:1rem; }
+  .notes p { margin:.3rem 0; }
+  .rep-top { background:rgba(243,246,251,.92); border-bottom:1px solid var(--line); }
   .back { display:inline-block; margin-top:1.1rem; color:var(--accent); text-decoration:none; font-size:.9rem; }
 </style>
 </head><body>
@@ -33,14 +80,63 @@
 </form>
 </div>
 </section>
+<div class="rep" id="rep">
+<div class="rep-top"><div class="wrap bar"><a class="logo" href="../index.html">Strong <span>Minds</span></a><span class="muted" style="font-size:.8rem;letter-spacing:.14em;text-transform:uppercase">Reporting</span></div></div>
+<div class="rep-hero"><div class="wrap">
+<p class="kicker">Starck Technologies &middot; Outreach</p>
+<h1>September to November 2026</h1>
+<p id="asof"></p>
+</div></div>
+<main class="wrap" id="repbody"></main>
+</div>
 <script>
-async function showReport() {
-  document.getElementById("panel").innerHTML =
-    '<a class="logo" href="../index.html">Strong <span>Minds</span></a>' +
-    '<p class="kicker" style="margin-top:1.2rem">Reporting</p>' +
-    '<h1>Reporting</h1>' +
-    '<p>The Starck bot has not sent any statistics yet, so there are no figures on this page.</p>' +
-    '<a class="back" href="../index.html">Back to Strong Minds</a>';
+function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function nf(n) { return Number(n).toLocaleString("en-GB"); }
+function bars(months, key) {
+  var max = Math.max.apply(null, months.map(function (m) { return m[key]; })) || 1;
+  return months.map(function (m) {
+    return '<div class="bar-row"><span>' + esc(m.label) + '</span><div class="track"><div class="fill" style="width:' +
+      Math.max(2, Math.round(m[key] / max * 100)) + '%"></div></div><span class="v">' + nf(m[key]) + '</span></div>';
+  }).join("");
+}
+function showReport(stats) {
+  document.querySelector(".gate").style.display = "none";
+  document.getElementById("rep").className = "rep on";
+  window.scrollTo(0, 0);
+  var body = document.getElementById("repbody");
+  if (!stats) {
+    body.innerHTML = '<div class="sec"><p>There are no figures on this page yet.</p></div>';
+    return;
+  }
+  var t = stats.totals, ms = stats.months;
+  document.getElementById("asof").textContent = "Figures to " + stats.asOf + ". Only emails actually sent are counted.";
+  var kpi = function (cls, lbl, big, sub) {
+    return '<div class="kpi ' + cls + '"><p class="lbl">' + lbl + '</p><p class="big">' + nf(big) + '</p><p class="sub">' + sub + '</p></div>';
+  };
+  var html = '<div class="kpis">' +
+    kpi("", "Outreaches", t.outreaches, "first emails, to " + nf(t.companies) + " companies") +
+    kpi("", "Follow-ups", t.followups, "follow-up emails to " + nf(t.followupPeople) + " people") +
+    kpi("", "Warm contacts", t.warm, nf(t.positive) + " positive, " + nf(t.notNegative) + " &ldquo;contact us when the need arises&rdquo;") +
+    kpi("hot", "RFQ potential", t.rfq, "companies that could send an RFQ") +
+    '</div>';
+  html += '<div class="sec"><h2>Month by month</h2><p class="hint">Sep, Oct and Nov (to 17 Nov). Warm contacts and RFQ potential are counted in the month of the first reply.</p><div class="mgrid">' +
+    '<div class="mcard"><h3>Outreaches</h3>' + bars(ms, "outreaches") + '</div>' +
+    '<div class="mcard"><h3>Follow-ups</h3>' + bars(ms, "followups") + '</div>' +
+    '<div class="mcard"><h3>Warm contacts</h3>' + bars(ms, "warm") + '</div>' +
+    '<div class="mcard"><h3>RFQ potential</h3>' + bars(ms, "rfq") + '</div></div></div>';
+  var lab = {}; ms.forEach(function (m) { lab[m.key] = m.label; });
+  html += '<div class="sec"><div class="twocol"><div><h2>RFQ potential</h2><p class="hint">From positive responses and meetings.</p><div class="list">' +
+    stats.rfq.map(function (r) {
+      return '<div class="it"><div><b>' + esc(r.company) + '</b><span class="n">' + esc(r.note) + '</span></div><span class="tag">' + esc(lab[r.month] || "") + '</span></div>';
+    }).join("") + '</div></div>' +
+    '<div><h2>Warm contacts</h2><p class="hint">Positive replies plus polite &ldquo;not now, contact us later&rdquo; replies.</p><div class="warm"><p class="big">' + nf(t.warm) + '</p>' +
+    '<table><tr><th></th><th>Positive</th><th>Not now</th><th>Total</th></tr>' +
+    ms.map(function (m) { return '<tr><td>' + esc(m.label) + '</td><td>' + m.positive + '</td><td>' + m.notNegative + '</td><td>' + m.warm + '</td></tr>'; }).join("") +
+    '<tr><td><b>Total</b></td><td><b>' + t.positive + '</b></td><td><b>' + t.notNegative + '</b></td><td><b>' + t.warm + '</b></td></tr></table></div></div></div></div>';
+  html += '<div class="notes"><p>Totals count each company or person once, so they can be lower than the sum of the months.</p>' +
+    '<p>The campaign began on 27 Aug; the ' + stats.before.outreaches + ' outreaches and ' + stats.before.followups + ' follow-ups sent ' + esc(stats.before.label) + ' are not included above. About ' + nf(t.bounced) + ' outreach emails bounced and are counted as sent.</p>' +
+    '<p>Replies are classified by hand. Suppliers and competitors are excluded from all figures.</p></div>';
+  body.innerHTML = html;
 }
 document.getElementById("gate").onsubmit = async function (e) {
   e.preventDefault();
@@ -57,10 +153,11 @@ document.getElementById("gate").onsubmit = async function (e) {
     status.textContent = "That password is not right.";
     return;
   }
-  showReport();
+  var data = await res.json();
+  showReport(data.stats);
 };
 fetch("/api/reporting", { credentials: "same-origin" }).then(function (res) {
-  if (res.ok) showReport();
+  if (res.ok) return res.json().then(function (data) { showReport(data.stats); });
 });
 </script>
 </body></html>
