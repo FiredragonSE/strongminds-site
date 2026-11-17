@@ -142,6 +142,11 @@ function showReport(stats) {
     '<div class="mcard"><h3>RFQ potential</h3><p class="bignum">' + nf(t.rfq) + '</p><p class="small">Our own list, so no month split.</p></div></div></div>';
   html += '<div class="sec"><div class="rfqbox"><h2>RFQ potential &middot; ' + nf(t.rfq) + '</h2><p class="hint">Our current RFQ potential.</p><div class="chips">' +
     stats.rfq.map(function (n) { return '<span class="chip rfq">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
+  html += '<div class="sec"><div class="twocol" style="grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))">' +
+    '<div class="panel2"><h2>Clients &middot; ' + stats.clients.length + '</h2><p class="hint">Existing clients.</p><div class="chips">' +
+    stats.clients.map(function (n) { return '<span class="chip get">' + esc(n) + '</span>'; }).join("") + '</div></div>' +
+    '<div class="panel2"><h2>Proposal submitted &middot; ' + stats.proposals.length + '</h2><p class="hint">Proposal already sent.</p><div class="chips">' +
+    stats.proposals.map(function (n) { return '<span class="chip get">' + esc(n) + '</span>'; }).join("") + '</div></div></div></div>';
   var TD = ' style="text-align:right;border-top:1px solid var(--line);padding:.4rem 0"', TL = ' style="padding:.4rem 0;border-top:1px solid var(--line)"';
   html += '<div class="sec"><div class="panel2"><h2>Warm contacts &middot; ' + nf(t.warm) + '</h2><p class="hint">&ldquo;Will contact us when the need arises.&rdquo; Not RFQ potential.</p>' +
     '<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase"><th style="text-align:left;font-weight:500">Month of reply</th><th style="text-align:right;font-weight:500">Warm contacts</th></tr>' +
@@ -157,7 +162,7 @@ function showReport(stats) {
     }).join("") + '</div></div>';
   html += '<div class="notes"><p>Totals count each company or person once, so they can be lower than the sum of the months.</p>' +
     '<p>The campaign began on 27 Aug; the ' + stats.before.outreaches + ' outreaches and ' + stats.before.followups + ' follow-ups sent ' + esc(stats.before.label) + ' are not included above. About ' + nf(t.bounced) + ' outreach emails bounced and are counted as sent.</p>' +
-    '<p>Replies are classified by hand and each company is in only one of RFQ potential, warm contacts or hard nos. Replies from before 1 Sep are not counted. Suppliers and competitors are excluded from all figures.</p></div>';
+    '<p>Replies are classified by hand and each company is in only one group. Replies from before 1 Sep are not counted. Suppliers and competitors are excluded from all figures.</p></div>';
   body.innerHTML = html;
 }
 document.getElementById("gate").onsubmit = async function (e) {
