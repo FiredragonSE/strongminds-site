@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Droxic — Strong Minds</title>
+<meta name="theme-color" content="#0463CA">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../favicon.svg">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  .gate { min-height:100vh; position:relative; display:flex; align-items:center; justify-content:center; padding:2rem 1.25rem; }
+  .gate img.bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .gate .shade { position:absolute; inset:0; background:rgba(18,35,63,.45); }
+  .panel { position:relative; width:min(28rem,100%); background:#fff; border-radius:.75rem; padding:2rem 1.6rem 1.7rem; box-shadow:0 12px 40px rgba(18,35,63,.25); }
+  .panel h1 { font-size:2.4rem; margin:.2rem 0 0; }
+  .panel form { display:flex; flex-direction:column; gap:.8rem; margin-top:1.4rem; }
+  .panel input { width:100%; border:1px solid var(--line); padding:.8rem; font:inherit; }
+  .panel .btn { width:100%; }
+  .back { display:inline-block; margin-top:1.1rem; color:var(--accent); text-decoration:none; font-size:.9rem; }
+</style>
+</head><body>
+<section class="gate">
+<img class="bg" src="../images/header-fjord.jpg" alt="Nordic fjord">
+<div class="shade"></div>
+<div class="panel" id="panel">
+<a class="logo" href="../index.html">Strong <span>Minds</span></a>
+<p class="kicker" style="margin-top:1.2rem">Droxic</p>
+<h1>Droxic</h1>
+<form id="gate">
+<label>Password<input type="password" name="password" autocomplete="current-password" required></label>
+<button class="btn" type="submit">Enter</button>
+<p class="muted" id="gate-status"></p>
+</form>
+</div>
+</section>
+<script>
+function showInside() {
+  document.getElementById("panel").innerHTML =
+    '<a class="logo" href="../index.html">Strong <span>Minds</span></a>' +
+    '<p class="kicker" style="margin-top:1.2rem">Droxic</p>' +
+    '<h1>Droxic</h1>' +
+    '<p style="margin-top:.8rem">You are in.</p>' +
+    '<a class="back" href="../index.html">Back to Strong Minds</a>';
+}
+document.getElementById("gate").onsubmit = async function (e) {
+  e.preventDefault();
+  var status = document.getElementById("gate-status");
+  status.textContent = "";
+  var password = new FormData(e.target).get("password");
+  var res = await fetch("/api/droxic", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ password: password })
+  });
+  if (!res.ok) {
+    status.textContent = "That password is not right.";
+    return;
+  }
+  showInside();
+};
+fetch("/api/droxic", { credentials: "same-origin" }).then(function (res) {
+  if (res.ok) showInside();
+});
+</script>
+</body></html>
