@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reporting — Strong Minds</title>
+<title>Starck Technologies · October–November 2026</title>
 <meta name="theme-color" content="#0463CA">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../favicon.svg">
@@ -97,8 +97,8 @@
 <div class="rep" id="rep">
 <div class="rep-top"><div class="wrap bar"><a class="logo" href="../index.html">Strong <span>Minds</span></a><span class="muted" style="font-size:.8rem;letter-spacing:.14em;text-transform:uppercase">Reporting</span></div></div>
 <div class="rep-hero"><div class="wrap">
-<p class="kicker">Starck Technologies &middot; Outreach</p>
-<h1>September to November 2026</h1>
+<p class="kicker">Starck Technologies &middot; October–November 2026</p>
+<h1>October–November 2026</h1>
 <p id="asof"></p>
 </div></div>
 <main class="wrap" id="repbody"></main>
@@ -131,23 +131,30 @@ function showReport(stats) {
     return;
   }
   var t = stats.totals, ms = stats.months;
-  document.getElementById("asof").textContent = "Figures to " + stats.asOf + ". Only emails actually sent are counted.";
+  document.getElementById("asof").textContent = "Sent figures to " + stats.asOf + ". Planned November follow-ups are listed separately and are not in the sent totals.";
   var kpi = function (cls, lbl, big, sub) {
     return '<div class="kpi ' + cls + '"><p class="lbl">' + lbl + '</p><p class="big">' + nf(big) + '</p><p class="sub">' + sub + '</p></div>';
   };
-  var sch = stats.scheduledFollowups || { total: 0, byDate: [] };
-  var schSub = (sch.byDate || []).map(function (d) {
-    return d.date + ": " + nf(d.count) + (d.window ? " (" + d.window + ")" : "");
-  }).join(" · ") || "none still to send";
+  var plan = stats.plannedFollowups || { total: 0, scheduled: 0, planned: 0, byDate: [] };
+  var planSub = nf(plan.scheduled) + " scheduled (20 Nov) · " + nf(plan.planned) + " planned, not yet scheduled";
   var html = '<div class="kpis">' +
     kpi("", "Outreaches", t.outreaches, "first emails, to " + nf(t.companies) + " companies") +
-    kpi("", "Follow-ups", t.followups, "follow-up emails to " + nf(t.followupPeople) + " people") +
-    kpi("", "Scheduled follow-ups (November)", sch.total, schSub) +
+    kpi("", "Follow-ups", t.followups, "sent in Oct–Nov, to " + nf(t.followupPeople) + " people") +
+    kpi("", "Follow-ups planned in November", plan.total, planSub) +
     kpi("", "Warm contacts", t.warm, "Oct–Nov · will contact us when the need arises") +
     kpi("no", "Hard nos", t.hardNo, "replied not interested") +
     kpi("hot", "RFQ potential from Electronica 2026", t.rfq, "companies we are pursuing for an RFQ") +
     '</div>';
-  html += '<div class="sec"><h2>Month by month</h2><p class="hint">Sep, Oct and Nov (to 17 Nov). Warm contacts are Oct–Nov only, by month of the first warm reply. Hard nos are counted in the month of the reply.</p><div class="mgrid">' +
+  var PTD = ' style="text-align:right;border-top:1px solid var(--line);padding:.4rem 0"', PTL = ' style="padding:.4rem 0;border-top:1px solid var(--line)"';
+  var kindLabel = { scheduled: "Scheduled", planned: "Planned (not yet scheduled)" };
+  html += '<div class="sec"><div class="panel2"><h2>Follow-ups planned in November &middot; ' + nf(plan.total) + '</h2><p class="hint">16 follow-ups are already scheduled for 20 Nov. The others are drafts in the mailbox with a date prefix; they are planned but not yet scheduled.</p>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase"><th style="text-align:left;font-weight:500">Date</th><th style="text-align:left;font-weight:500">Status</th><th style="text-align:right;font-weight:500">Count</th></tr>' +
+    (plan.byDate || []).map(function (d) {
+      var extra = d.window ? " (" + d.window + ")" : "";
+      return '<tr><td' + PTL + '>' + esc(d.date) + extra + '</td><td' + PTL + '>' + esc(kindLabel[d.kind] || d.kind) + '</td><td' + PTD + '>' + nf(d.count) + '</td></tr>';
+    }).join("") +
+    '<tr><td' + PTL + '><b>Total</b></td><td' + PTL + '></td><td' + PTD + '><b>' + nf(plan.total) + '</b></td></tr></table></div></div>';
+  html += '<div class="sec"><h2>Month by month</h2><p class="hint">October and November (to 17 Nov). Warm contacts are by month of the first warm reply. Hard nos are counted in the month of the reply.</p><div class="mgrid">' +
     '<div class="mcard"><h3>Outreaches</h3>' + bars(ms, "outreaches") + '</div>' +
     '<div class="mcard"><h3>Follow-ups</h3>' + bars(ms, "followups") + '</div>' +
     '<div class="mcard"><h3>Warm contacts · Oct–Nov</h3>' + bars(ms, "warm") + '</div>' +
@@ -167,15 +174,15 @@ function showReport(stats) {
     '<tr><td' + TL + '><b>Total</b></td><td' + TD + '><b>' + t.warm + '</b></td></tr></table>' +
     '<div class="chips" style="margin-top:1.2rem">' +
     stats.warm.map(function (n) { return '<span class="chip' + (n === "Getinge" ? " get" : "") + '">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
-  var HM = { sep: "September", oct: "October", nov: "November (to 17 Nov)" };
+  var HM = { oct: "October", nov: "November (to 17 Nov)" };
   html += '<div class="sec"><div class="panel2"><h2>Hard nos &middot; ' + nf(t.hardNo) + '</h2><p class="hint">Companies that replied that they are not interested. Not in the warm or RFQ lists.</p>' +
-    ["sep", "oct", "nov"].map(function (k) {
+    ["oct", "nov"].map(function (k) {
       var l = stats.hardNoList[k] || [];
       return '<h4>' + esc(HM[k]) + ' (' + l.length + ')</h4><div class="chips">' + l.map(function (n) { return '<span class="chip">' + esc(n) + '</span>'; }).join("") + '</div>';
     }).join("") + '</div></div>';
   html += '<div class="notes"><p>Totals count each company or person once, so they can be lower than the sum of the months.</p>' +
-    '<p>The campaign began on 27 Aug; the ' + stats.before.outreaches + ' outreaches and ' + stats.before.followups + ' follow-ups sent ' + esc(stats.before.label) + ' are not included above. About ' + nf(t.bounced) + ' outreach emails bounced and are counted as sent.</p>' +
-    '<p>Replies are classified by hand and each company is in only one group. Replies from before 1 Sep are not counted. Suppliers and competitors are excluded from all figures.</p></div>';
+    '<p>About ' + nf(t.bounced) + ' outreach emails bounced and are counted as sent.</p>' +
+    '<p>Replies are classified by hand and each company is in only one group. Replies from before October are not counted. Suppliers and competitors are excluded from all figures.</p></div>';
   body.innerHTML = html;
 }
 document.getElementById("gate").onsubmit = async function (e) {
