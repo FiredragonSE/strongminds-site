@@ -4,8 +4,8 @@
 <title>Droxic — Strong Minds</title>
 <meta name="theme-color" content="#0463CA">
 <meta name="robots" content="noindex">
-<link rel="icon" href="../favicon.svg">
-<link rel="stylesheet" href="../styles.css">
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/styles.css">
 <style>
   .gate { min-height:100vh; position:relative; display:flex; align-items:center; justify-content:center; padding:2rem 1.25rem; }
   .gate img.bg { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
@@ -15,14 +15,48 @@
   .panel form { display:flex; flex-direction:column; gap:.8rem; margin-top:1.4rem; }
   .panel input { width:100%; border:1px solid var(--line); padding:.8rem; font:inherit; }
   .panel .btn { width:100%; }
-  .back { display:inline-block; margin-top:1.1rem; color:var(--accent); text-decoration:none; font-size:.9rem; }
+  .rep { display:none; }
+  .rep.on { display:block; }
+  .rep-top { background:rgba(243,246,251,.92); border-bottom:1px solid var(--line); }
+  .rep-hero { background:linear-gradient(135deg,#0b1d3a 0%,#12233f 55%,#0463CA 160%); color:#fff; padding:3.2rem 0 5.5rem; }
+  .rep-hero h1 { font-size:clamp(2.2rem,5vw,3.4rem); max-width:none; }
+  .rep-hero p { margin:.8rem 0 0; opacity:.85; max-width:42rem; }
+  .rep main { margin-top:-3.6rem; padding-bottom:3rem; }
+  .kpis { display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); }
+  @media (min-width:1000px) { .kpis { grid-template-columns:repeat(4,1fr); } }
+  .kpi { background:var(--card); border-top:4px solid var(--accent); border-radius:.4rem; padding:1.2rem; box-shadow:0 8px 24px rgba(18,35,63,.12); }
+  .kpi .lbl { font-size:.75rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0; }
+  .kpi .big { font-family:Newsreader,Georgia,serif; font-size:clamp(2.2rem,5vw,3.2rem); line-height:1; margin:.5rem 0 .4rem; }
+  .kpi .sub { font-size:.85rem; color:var(--muted); margin:0; }
+  .kpi.no { border-top-color:#8a98ab; }
+  .kpi.hot { border-top-color:#12233f; background:#12233f; }
+  .kpi.hot .lbl, .kpi.hot .sub { color:rgba(255,255,255,.75); }
+  .kpi.hot .big { color:#fff; }
+  .rep h2 { font-size:clamp(1.5rem,3vw,2rem); margin:0 0 .3rem; }
+  .rep .sec { padding:2.6rem 0 0; }
+  .rep .hint { color:var(--muted); font-size:.9rem; margin:0 0 1.2rem; }
+  .mgrid { display:grid; gap:1rem; }
+  @media (min-width:800px) { .mgrid { grid-template-columns:repeat(2,1fr); } }
+  .mcard { background:var(--card); border-radius:.4rem; padding:1.1rem 1.2rem 1.2rem; box-shadow:0 1px 2px rgba(18,35,63,.08); }
+  .mcard h3 { font-family:Outfit,system-ui,sans-serif; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin:0 0 .9rem; font-weight:500; }
+  .bar-row { display:grid; grid-template-columns:8rem 1fr 3.2rem; align-items:center; gap:.6rem; margin:.5rem 0; font-size:.9rem; }
+  .bar-row .track { background:#e8eef7; border-radius:.25rem; height:1.1rem; overflow:hidden; }
+  .bar-row .fill { height:100%; background:var(--accent); border-radius:.25rem; min-width:2px; }
+  .bar-row .fill.b { background:#12233f; }
+  .bar-row .v { text-align:right; font-weight:500; }
+  .tbl { width:100%; border-collapse:collapse; font-size:.9rem; }
+  .tbl th, .tbl td { text-align:right; padding:.45rem .3rem; border-top:1px solid var(--line); }
+  .tbl th:first-child, .tbl td:first-child { text-align:left; }
+  .tbl th { font-weight:500; color:var(--muted); font-size:.75rem; letter-spacing:.1em; text-transform:uppercase; border-top:0; }
+  .notes { margin-top:2.4rem; color:var(--muted); font-size:.82rem; border-top:1px solid var(--line); padding-top:1rem; }
+  .notes p { margin:.3rem 0; }
 </style>
 </head><body>
 <section class="gate">
-<img class="bg" src="../images/header-fjord.jpg" alt="Nordic fjord">
+<img class="bg" src="/images/header-fjord.jpg" alt="Nordic fjord">
 <div class="shade"></div>
-<div class="panel" id="panel">
-<a class="logo" href="../index.html">Strong <span>Minds</span></a>
+<div class="panel">
+<a class="logo" href="/index.html">Strong <span>Minds</span></a>
 <p class="kicker" style="margin-top:1.2rem">Droxic</p>
 <h1>Droxic</h1>
 <form id="gate">
@@ -32,14 +66,75 @@
 </form>
 </div>
 </section>
+<div class="rep" id="rep">
+<div class="rep-top"><div class="wrap bar"><a class="logo" href="/index.html">Strong <span>Minds</span></a><span class="muted" style="font-size:.8rem;letter-spacing:.14em;text-transform:uppercase">Reporting</span></div></div>
+<div class="rep-hero"><div class="wrap">
+<p class="kicker">Droxic &middot; Outreach</p>
+<h1>Droxic outreach report</h1>
+<p id="asof"></p>
+</div></div>
+<main class="wrap" id="repbody"></main>
+</div>
 <script>
-function showInside() {
-  document.getElementById("panel").innerHTML =
-    '<a class="logo" href="../index.html">Strong <span>Minds</span></a>' +
-    '<p class="kicker" style="margin-top:1.2rem">Droxic</p>' +
-    '<h1>Droxic</h1>' +
-    '<p style="margin-top:.8rem">You are in.</p>' +
-    '<a class="back" href="../index.html">Back to Strong Minds</a>';
+function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+function nf(n) { return Number(n).toLocaleString("en-GB"); }
+function bars(rows, cls) {
+  var max = Math.max.apply(null, rows.map(function (r) { return r.value; })) || 1;
+  return rows.map(function (r) {
+    return '<div class="bar-row"><span>' + esc(r.label) + '</span><div class="track"><div class="fill ' + (cls || '') + '" style="width:' +
+      Math.max(2, Math.round(r.value / max * 100)) + '%"></div></div><span class="v">' + nf(r.value) + '</span></div>';
+  }).join("");
+}
+function weekLabel(iso) {
+  var d = new Date(iso + "T12:00:00Z");
+  return "Week of " + d.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+}
+function showReport(s) {
+  document.querySelector(".gate").style.display = "none";
+  document.getElementById("rep").className = "rep on";
+  window.scrollTo(0, 0);
+  var body = document.getElementById("repbody");
+  if (!s) { body.innerHTML = '<div class="sec"><p>There are no figures on this page yet.</p></div>'; return; }
+  var r = s.reach, f = s.followUps, p = s.replies;
+  document.getElementById("asof").textContent = "As of " + s.asOf + ". Period: " + s.period + ". Figures are built from send logs and inbox checks; those marked approx. are estimates.";
+  var kpi = function (cls, lbl, big, sub) {
+    return '<div class="kpi ' + cls + '"><p class="lbl">' + lbl + '</p><p class="big">' + big + '</p><p class="sub">' + sub + '</p></div>';
+  };
+  var html = '<div class="kpis">' +
+    kpi("", "First touches", "approx. " + nf(r.firstTouches), "emails to people at approx. " + nf(r.companies) + " companies") +
+    kpi("", "Follow ups", "approx. " + nf(f.messages), "emails to approx. " + nf(f.people) + " people") +
+    kpi("", "Replies", "approx. " + nf(p.total), "response rate approx. " + p.rate + "% of first touches") +
+    kpi("hot", "Meetings booked", nf(s.meetings.booked), "none confirmed so far") +
+    '</div>';
+  html += '<div class="sec"><h2>Reach</h2><p class="hint">Email first touches by country and language, plus LinkedIn.</p><div class="mgrid">' +
+    '<div class="mcard"><h3>Email first touches by country (approx.)</h3>' + bars(r.countries) + '</div>' +
+    '<div class="mcard"><h3>Language and LinkedIn</h3>' +
+    bars([{ label: "Swedish emails", value: r.swedish }, { label: "English emails", value: r.english }]) +
+    bars([{ label: "LinkedIn messages", value: s.linkedin.messages }, { label: "LinkedIn invites (approx.)", value: s.linkedin.invites }], "b") +
+    '</div></div></div>';
+  html += '<div class="sec"><h2>Follow ups</h2><p class="hint">Counted by each person\'s order of follow up. No third follow ups are sent.</p><div class="mgrid">' +
+    '<div class="mcard"><h3>Follow ups by step (approx.)</h3>' + bars([{ label: "Follow up 1", value: f.fu1 }, { label: "Follow up 2", value: f.fu2 }]) + '</div>' +
+    '<div class="mcard"><h3>Total</h3>' + bars([{ label: "Follow up emails", value: f.messages }, { label: "People followed up", value: f.people }], "b") + '</div></div></div>';
+  html += '<div class="sec"><h2>Replies</h2><p class="hint">Each person or company is counted once. Out of office replies are not counted as replies.</p><div class="mgrid">' +
+    '<div class="mcard"><h3>Reply breakdown (approx.)</h3>' + bars([
+      { label: "Hard nos", value: p.hardNo }, { label: "Soft nos", value: p.softNo },
+      { label: "Positive or open", value: p.positive }, { label: "Other", value: p.other },
+      { label: "Not yet sorted", value: p.unclassified }]) + '</div>' +
+    '<div class="mcard"><h3>Key figures</h3><table class="tbl"><tbody>' +
+    '<tr><td>Replies in total</td><td>approx. ' + nf(p.total) + '</td></tr>' +
+    '<tr><td>Response rate</td><td>approx. ' + p.rate + '%</td></tr>' +
+    '<tr><td>Hard nos (never contacted again)</td><td>approx. ' + nf(p.hardNo) + '</td></tr>' +
+    '<tr><td>Soft nos</td><td>approx. ' + nf(p.softNo) + '</td></tr>' +
+    '<tr><td>Positive or open</td><td>' + nf(p.positive) + '</td></tr>' +
+    '<tr><td>Out of office replies</td><td>at least ' + nf(p.ooo) + '</td></tr>' +
+    '<tr><td>Meetings booked</td><td>' + nf(s.meetings.booked) + '</td></tr>' +
+    '</tbody></table></div></div></div>';
+  html += '<div class="sec"><h2>Month by month</h2><p class="hint">Emails sent per month (approx.). September follow ups were not logged by day, so that figure is low.</p><div class="mcard"><table class="tbl"><thead><tr><th>Month</th><th>First touches</th><th>Follow ups</th><th>People followed up</th></tr></thead><tbody>' +
+    s.monthly.map(function (m) { return '<tr><td>' + esc(m.label) + '</td><td>' + nf(m.ft) + '</td><td>' + nf(m.fu) + '</td><td>' + nf(m.fuPeople) + '</td></tr>'; }).join("") +
+    '</tbody></table>' + (s.undatedFirstTouches ? '<p class="hint" style="margin-top:.8rem">' + nf(s.undatedFirstTouches) + ' first touches have no logged send date and are only in the totals.</p>' : '') + '</div></div>';
+  html += '<div class="notes"><p>Aggregate figures only. No names, companies or addresses are shown.</p>' +
+    '<p>Counts come from send logs and inbox checks and may differ slightly from the mailbox. The reply classification is done by hand and some replies are not sorted yet.</p></div>';
+  body.innerHTML = html;
 }
 document.getElementById("gate").onsubmit = async function (e) {
   e.preventDefault();
@@ -52,14 +147,12 @@ document.getElementById("gate").onsubmit = async function (e) {
     credentials: "same-origin",
     body: JSON.stringify({ password: password })
   });
-  if (!res.ok) {
-    status.textContent = "That password is not right.";
-    return;
-  }
-  showInside();
+  if (!res.ok) { status.textContent = "That password is not right."; return; }
+  var data = await res.json();
+  showReport(data.stats);
 };
 fetch("/api/droxic", { credentials: "same-origin" }).then(function (res) {
-  if (res.ok) showInside();
+  if (res.ok) return res.json().then(function (data) { showReport(data.stats); });
 });
 </script>
 </body></html>

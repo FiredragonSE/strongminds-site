@@ -36,8 +36,17 @@ function same(password) {
   return a.length === b.length && a.length > 0 && crypto.timingSafeEqual(a, b);
 }
 
+function stats() {
+  try {
+    return JSON.parse(process.env.DROXIC_STATS || "null");
+  } catch (e) {
+    return null;
+  }
+}
+
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
+  res.setHeader("X-Robots-Tag", "noindex, nofollow");
   if (!secret()) {
     res.status(500).json({ ok: false });
     return;
@@ -47,7 +56,7 @@ module.exports = async function handler(req, res) {
       res.status(401).json({ ok: false });
       return;
     }
-    res.status(200).json({ ok: true });
+    res.status(200).json({ ok: true, stats: stats() });
     return;
   }
   if (req.method !== "POST") {
@@ -56,6 +65,7 @@ module.exports = async function handler(req, res) {
   }
   const body = req.body || {};
   if (!same(body.password)) {
+    await new Promise((r) => setTimeout(r, 1200));
     res.status(401).json({ ok: false });
     return;
   }
@@ -63,5 +73,5 @@ module.exports = async function handler(req, res) {
     "Set-Cookie",
     "sm_droxic=" + encodeURIComponent(cookieValue()) + "; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=43200"
   );
-  res.status(200).json({ ok: true });
+  res.status(200).json({ ok: true, stats: stats() });
 };
