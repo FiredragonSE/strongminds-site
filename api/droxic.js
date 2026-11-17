@@ -36,14 +36,6 @@ function same(password) {
   return a.length === b.length && a.length > 0 && crypto.timingSafeEqual(a, b);
 }
 
-function stats() {
-  try {
-    return JSON.parse(process.env.REPORTING_STATS || "null");
-  } catch (e) {
-    return null;
-  }
-}
-
 module.exports = async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   if (!secret()) {
@@ -55,7 +47,7 @@ module.exports = async function handler(req, res) {
       res.status(401).json({ ok: false });
       return;
     }
-    res.status(200).json({ ok: true, stats: stats() });
+    res.status(200).json({ ok: true });
     return;
   }
   if (req.method !== "POST") {
@@ -71,5 +63,5 @@ module.exports = async function handler(req, res) {
     "Set-Cookie",
     "sm_droxic=" + encodeURIComponent(cookieValue()) + "; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=43200"
   );
-  res.status(200).json({ ok: true, stats: stats() });
+  res.status(200).json({ ok: true });
 };
