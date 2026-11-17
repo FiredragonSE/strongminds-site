@@ -104,7 +104,14 @@
 <main class="wrap" id="repbody"></main>
 </div>
 <script>
-function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { "&": "&", "<": "<", ">": ">", '"': """ }[c]; }); }
+function esc(t) {
+  return String(t).replace(/[&<>"]/g, function (c) {
+    if (c === "&") return "&" + "amp;";
+    if (c === "<") return "&" + "lt;";
+    if (c === ">") return "&" + "gt;";
+    return "&" + "quot;";
+  });
+}
 function nf(n) { return Number(n).toLocaleString("en-GB"); }
 function bars(months, key) {
   var rows = months.filter(function (m) { return m[key] != null; });
