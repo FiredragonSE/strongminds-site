@@ -133,7 +133,8 @@ function showReport(stats) {
   var t = stats.totals, ms = stats.months;
   document.getElementById("asof").textContent = "Sent figures to " + stats.asOf + ". Planned November follow-ups are listed separately and are not in the sent totals.";
   var kpi = function (cls, lbl, big, sub) {
-    return '<div class="kpi ' + cls + '"><p class="lbl">' + lbl + '</p><p class="big">' + nf(big) + '</p><p class="sub">' + sub + '</p></div>';
+    var shown = (typeof big === "number") ? nf(big) : esc(String(big));
+    return '<div class="kpi ' + cls + '"><p class="lbl">' + lbl + '</p><p class="big">' + shown + '</p><p class="sub">' + sub + '</p></div>';
   };
   var plan = stats.plannedFollowups || { total: 0, scheduled: 0, planned: 0, byDate: [] };
   var planSub = nf(plan.scheduled) + " scheduled (20 Nov) · " + nf(plan.planned) + " planned, not yet scheduled";
@@ -143,7 +144,7 @@ function showReport(stats) {
     kpi("", "Follow-ups planned in November", plan.total, planSub) +
     kpi("", "Warm contacts", t.warm, "Oct–Nov · will contact us when the need arises") +
     kpi("no", "Hard nos", t.hardNo, "replied not interested") +
-    kpi("hot", "RFQ potential from Electronica 2026", t.rfq, "companies we are pursuing for an RFQ") +
+    kpi("hot", "Expected RFQs", (stats.rfqExpected && stats.rfqExpected.expected) || "4\u20135", "currently pursuing") +
     '</div>';
   var PTD = ' style="text-align:right;border-top:1px solid var(--line);padding:.4rem 0"', PTL = ' style="padding:.4rem 0;border-top:1px solid var(--line)"';
   var kindLabel = { scheduled: "Scheduled", planned: "Planned (not yet scheduled)" };
@@ -159,23 +160,31 @@ function showReport(stats) {
     '<div class="mcard"><h3>Follow-ups</h3>' + bars(ms, "followups") + '</div>' +
     '<div class="mcard"><h3>Warm contacts · Oct–Nov</h3>' + bars(ms, "warm") + '</div>' +
     '<div class="mcard"><h3>Hard nos</h3>' + bars(ms, "hardNo") + '</div>' +
-    '<div class="mcard"><h3>RFQ potential from Electronica 2026</h3><p class="bignum">' + nf(t.rfq) + '</p><p class="small">Our own list, so no month split.</p></div></div></div>';
-  html += '<div class="sec"><div class="rfqbox"><h2>RFQ potential from Electronica 2026 &middot; ' + nf(t.rfq) + '</h2><p class="hint">Our current RFQ potential.</p><div class="chips">' +
-    stats.rfq.map(function (n) { return '<span class="chip rfq">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
+    '<div class="mcard"><h3>Expected RFQs</h3><p class="bignum">' + esc((stats.rfqExpected && stats.rfqExpected.expected) || "4\u20135") + '</p><p class="small">Currently pursuing. From electronica 2026: ' + esc((stats.rfqExpected && stats.rfqExpected.fromElectronica) || "2\u20133") + ' RFQs expected.</p></div></div></div>';
+  var rx = stats.rfqExpected || { expected: "4\u20135", fromElectronica: "2\u20133" };
+  html += '<div class="sec"><div class="rfqbox"><h2>Expected RFQs &middot; ' + esc(rx.expected) + '</h2><p class="hint">Currently pursuing.</p><p style="margin:.2rem 0 0;font-size:1.15rem">From electronica 2026: ' + esc(rx.fromElectronica) + ' RFQs expected.</p></div></div>';
   html += '<div class="sec"><div class="twocol" style="grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))">' +
     '<div class="panel2"><h2>Clients &middot; ' + stats.clients.length + '</h2><p class="hint">Existing clients.</p><div class="chips">' +
     stats.clients.map(function (n) { return '<span class="chip get">' + esc(n) + '</span>'; }).join("") + '</div></div>' +
     '<div class="panel2"><h2>Proposal submitted &middot; ' + stats.proposals.length + '</h2><p class="hint">Proposal already sent.</p><div class="chips">' +
     stats.proposals.map(function (n) { return '<span class="chip get">' + esc(n) + '</span>'; }).join("") + '</div></div></div></div>';
+  var ip = stats.inProgress || { items: [] };
+  var ST = { met: "Met", upcoming: "Upcoming" };
+  html += '<div class="sec"><div class="panel2"><h2>In progress &middot; ' + nf((ip.items || []).length) + '</h2><p class="hint">Companies we have met, and meetings that are coming up.</p>' +
+    '<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase"><th style="text-align:left;font-weight:500">Company</th><th style="text-align:left;font-weight:500">Date</th><th style="text-align:left;font-weight:500">Status</th></tr>' +
+    (ip.items || []).map(function (x) {
+      var det = x.detail ? " \u00b7 " + x.detail : "";
+      return '<tr><td style="padding:.4rem 0;border-top:1px solid var(--line)">' + esc(x.company) + '</td><td style="padding:.4rem 0;border-top:1px solid var(--line)">' + esc((x.date || "") + det) + '</td><td style="padding:.4rem 0;border-top:1px solid var(--line)">' + esc(ST[x.status] || x.status) + '</td></tr>';
+    }).join("") + '</table></div></div>';
   var TD = ' style="text-align:right;border-top:1px solid var(--line);padding:.4rem 0"', TL = ' style="padding:.4rem 0;border-top:1px solid var(--line)"';
-  html += '<div class="sec"><div class="panel2"><h2>Warm contacts · Oct–Nov &middot; ' + nf(t.warm) + '</h2><p class="hint">' + (stats.warmScope ? esc(stats.warmScope) + '. ' : '') + '&ldquo;Will contact us when the need arises.&rdquo; Not RFQ potential.</p>' +
+  html += '<div class="sec"><div class="panel2"><h2>Warm contacts · Oct–Nov &middot; ' + nf(t.warm) + '</h2><p class="hint">' + (stats.warmScope ? esc(stats.warmScope) + '. ' : '') + '&ldquo;Will contact us when the need arises.&rdquo;</p>' +
     '<table style="width:100%;border-collapse:collapse;font-size:.9rem"><tr style="color:var(--muted);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase"><th style="text-align:left;font-weight:500">Month of reply</th><th style="text-align:right;font-weight:500">Warm contacts</th></tr>' +
     ms.filter(function (m) { return m.warm != null; }).map(function (m) { return '<tr><td' + TL + '>' + esc(m.full) + '</td><td' + TD + '>' + m.warm + '</td></tr>'; }).join("") +
     '<tr><td' + TL + '><b>Total</b></td><td' + TD + '><b>' + t.warm + '</b></td></tr></table>' +
     '<div class="chips" style="margin-top:1.2rem">' +
     stats.warm.map(function (n) { return '<span class="chip' + (n === "Getinge" ? " get" : "") + '">' + esc(n) + '</span>'; }).join("") + '</div></div></div>';
   var HM = { oct: "October", nov: "November (to 17 Nov)" };
-  html += '<div class="sec"><div class="panel2"><h2>Hard nos &middot; ' + nf(t.hardNo) + '</h2><p class="hint">Companies that replied that they are not interested. Not in the warm or RFQ lists.</p>' +
+  html += '<div class="sec"><div class="panel2"><h2>Hard nos &middot; ' + nf(t.hardNo) + '</h2><p class="hint">Companies that replied that they are not interested. Not in the warm list.</p>' +
     ["oct", "nov"].map(function (k) {
       var l = stats.hardNoList[k] || [];
       return '<h4>' + esc(HM[k]) + ' (' + l.length + ')</h4><div class="chips">' + l.map(function (n) { return '<span class="chip">' + esc(n) + '</span>'; }).join("") + '</div>';
