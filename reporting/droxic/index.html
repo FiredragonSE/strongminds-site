@@ -146,6 +146,13 @@ function renderReport(r) {
     quoteSec = '<section class="sec"><h2>' + esc(Q.title) + '</h2><p class="lede">' + esc(Q.lede) + '</p>' +
       '<div class="panelc"><h3>' + esc(Q.from) + ', ' + esc(Q.date) + '</h3><div class="summary" style="font-style:italic">' + Q.text.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></div></section>';
   }
+  var S = r.softReplies, softSec = "";
+  if (S) {
+    softSec = '<section class="sec"><h2>' + esc(S.title) + '</h2><p class="lede">' + esc(S.lede) + '</p>' + S.groups.map(function (g) {
+      return '<div class="panelc" style="margin-bottom:1.2rem"><h3>' + esc(g.title) + '</h3><div class="tscroll"><table class="t"><thead><tr><th>Person</th><th>Company</th><th>What they said</th></tr></thead><tbody>' +
+        g.rows.map(function (x) { return "<tr><td>" + esc(x[0]) + "</td><td>" + esc(x[1]) + "</td><td>" + esc(x[2]) + "</td></tr>"; }).join("") + '</tbody></table></div></div>';
+    }).join("") + '</section>';
+  }
   var pct = function (n) { return (100 * n / T.replies).toFixed(1) + "%"; };
   var oth = T.otherReplies;
   var html =
@@ -167,7 +174,7 @@ function renderReport(r) {
     '<div class="rrow"><span>Interested</span><b>' + fmt(T.positive) + '</b></div>' +
     '<div class="rrow"><span>Other</span><b>' + fmt(oth) + '</b></div>' +
     '</div></div>' +
-    '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div></div></div></section>' + profSec + quoteSec +
+    '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div></div></div></section>' + softSec + profSec + quoteSec +
     '<section class="sec"><h2>Market</h2><div class="summary">' + r.market.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
     '<section class="sec"><h2>In short</h2><div class="summary">' + r.summary.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
     '<div class="rfoot"><a href="../">Back to Reporting</a></div>';
