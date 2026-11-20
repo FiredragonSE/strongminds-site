@@ -169,7 +169,6 @@ function renderReport(r) {
     '</div></div>' +
     '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div></div></div></section>' + profSec + quoteSec +
     '<section class="sec"><h2>Market</h2><div class="summary">' + r.market.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
-    listSec("How to get more meetings", r.suggestions) +
     '<section class="sec"><h2>In short</h2><div class="summary">' + r.summary.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
     '<div class="rfoot"><a href="../">Back to Reporting</a></div>';
   document.getElementById("r-main").innerHTML = html;
