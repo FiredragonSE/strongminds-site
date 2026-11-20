@@ -30,6 +30,14 @@ function allowed(header) {
   return Number(payload) > Date.now();
 }
 
+function report() {
+  try {
+    return JSON.parse(process.env.REPORTING_DROXIC_STATS || "null");
+  } catch (e) {
+    return null;
+  }
+}
+
 function same(code) {
   const a = Buffer.from(String(code));
   const b = Buffer.from(secret());
@@ -47,7 +55,7 @@ module.exports = async function handler(req, res) {
       res.status(401).json({ ok: false });
       return;
     }
-    res.status(200).json({ ok: true });
+    res.status(200).json({ ok: true, report: report() });
     return;
   }
   if (req.method !== "POST") {
@@ -63,5 +71,5 @@ module.exports = async function handler(req, res) {
     "Set-Cookie",
     "sm_reporting_droxic=" + encodeURIComponent(cookieValue()) + "; HttpOnly; Secure; SameSite=Lax; Path=/; Max-Age=43200"
   );
-  res.status(200).json({ ok: true });
+  res.status(200).json({ ok: true, report: report() });
 };
