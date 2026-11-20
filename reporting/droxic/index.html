@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Droxic — Strong Minds</title>
+<title>Droxic Sales — Strong Minds</title>
 <meta name="theme-color" content="#0463CA">
 <meta name="robots" content="noindex">
 <link rel="icon" href="../../favicon.svg">
@@ -37,6 +37,12 @@
   .lis { display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); align-content:start; }
   .lis .kpi { box-shadow:0 1px 2px rgba(18,35,63,.07); }
   .lis .kpi .v { font-size:clamp(1.8rem,3.4vw,2.4rem); }
+  .mk { margin-top:.4rem; }
+  .mkrow { display:grid; grid-template-columns:8.5rem 1fr 3rem; gap:.7rem; align-items:center; margin:.5rem 0; font-size:.92rem; }
+  .mkbar { height:.9rem; background:var(--line); border-radius:.5rem; overflow:hidden; }
+  .mkbar i { display:block; height:100%; background:#8fb9e6; }
+  .mkbar i.uk { background:var(--accent); } .mkbar i.nd { background:#c9d3e0; }
+  .mkrow b { text-align:right; font-weight:500; }
   .kpi.warm { border-top-color:#1f9d6b; } .kpi.warm .v { color:#1f9d6b; }
   .sec { padding:3.2rem 0 0; }
   .sec h2 { font-size:clamp(1.8rem,3.4vw,2.4rem); }
@@ -87,7 +93,7 @@
 <div class="panel" id="panel">
 <a class="logo" href="../../index.html">Strong <span>Minds</span></a>
 <p class="kicker" style="margin-top:1.2rem">Reporting</p>
-<h1>Droxic</h1>
+<h1>Droxic Sales</h1>
 <form id="gate">
 <label>Code<input type="password" name="code" autocomplete="current-password" required></label>
 <button class="btn" type="submit">Enter</button>
@@ -102,7 +108,7 @@
 <div class="shade"></div>
 <div class="wrap copy">
 <p class="kicker">Reporting</p>
-<h1>Droxic outreach</h1>
+<h1>Droxic Sales</h1>
 <p class="sub" id="r-sub"></p>
 <span class="asof" id="r-asof"></span>
 </div>
@@ -146,6 +152,24 @@ function renderReport(r) {
     liKpi = '<div class="kpi"><p class="v">\u2013</p><p class="l">LinkedIn</p><p class="n">being counted</p></div>';
     liSec = '<section class="sec"><h2>LinkedIn</h2><p class="lede"><b>Being counted.</b> The figures will appear here as soon as the count is done.</p></section>';
   }
+  var ukSec = "";
+  if (r.uk) {
+    var U = r.uk, UT = U.totals;
+    var ur = U.months.map(function (m) { return "<tr><td>" + esc(m.month) + (m.month === "Nov" ? ' <span class="na">(to 20 Nov)</span>' : "") + "</td><td>" + fmt(m.firstTouch) + "</td><td>" + fmt(m.followUps) + "</td><td>" + fmt(m.replies) + "</td></tr>"; }).join("");
+    var ud = U.sendDays.map(function (d) { return esc(d.day) + ": " + fmt(d.n); }).join(" \u00b7 ");
+    var mx = 0; U.market.forEach(function (m) { mx = Math.max(mx, m.value); });
+    var mk = U.market.map(function (m) { return '<div class="mkrow"><span>' + esc(m.label) + '</span><div class="mkbar"><i class="' + (m.label === "United Kingdom" ? "uk" : (m.label === "Not determined" ? "nd" : "")) + '" style="width:' + (100 * m.value / mx) + '%"></i></div><b>' + fmt(m.value) + '</b></div>'; }).join("");
+    ukSec = '<section class="sec"><h2>United Kingdom</h2><p class="lede">UK is ' + fmt(UT.shareOfFirstTouchPct) + '% of all first-touch emails, almost all sent since 26 October.</p>' +
+      '<div class="lis" style="grid-template-columns:repeat(2,1fr);margin-top:1.6rem"><div class="kpi"><p class="v">' + fmt(UT.firstTouch) + '</p><p class="l">UK first-touch emails</p><p class="n">' + ud + '</p></div>' +
+      '<div class="kpi"><p class="v">' + fmt(UT.followUps) + '</p><p class="l">UK follow-ups</p><p class="n">10 and 19 Nov</p></div>' +
+      '<div class="kpi"><p class="v">' + fmt(UT.replies) + '</p><p class="l">UK replies</p><p class="n">a no; the 19 Nov emails are still fresh</p></div>' +
+      '<div class="kpi"><p class="v">' + fmt(U.list.companies) + '</p><p class="l">UK companies listed</p><p class="n">' + fmt(U.list.fromGergana) + ' from Gergana, ' + fmt(U.list.researched) + ' researched</p></div></div>' +
+      '<div class="grid2"><div class="panelc"><h3>Month by month</h3><div class="tscroll"><table class="t"><thead><tr><th>Month</th><th>First touch</th><th>Follow-ups</th><th>Replies</th></tr></thead><tbody>' + ur +
+      '<tr class="tot"><td>Total</td><td>' + fmt(UT.firstTouch) + "</td><td>" + fmt(UT.followUps) + "</td><td>" + fmt(UT.replies) + "</td></tr></tbody></table></div>" +
+      '<p class="na" style="margin:1rem 0 0">' + esc(U.list.contactedFromList) + ' of the ' + fmt(U.list.companies) + ' listed companies have been emailed so far (19 Nov) and added to Zoho (' + fmt(U.list.addedToZoho19Nov) + ' leads); the rest have not been emailed yet.</p></div>' +
+      '<div class="panelc"><h3>First-touch emails by market</h3><div class="mk">' + mk + '</div><p class="na" style="margin:1rem 0 0">Approximate: from country columns in the lists, else the email domain ending.</p></div></div>' +
+      '<ul class="notes" style="margin-top:1.2rem">' + U.notes.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul></section>';
+  }
   var pct = function (n) { return (100 * n / T.replies).toFixed(1) + "%"; };
   var oth = T.otherReplies;
   var html =
@@ -167,7 +191,7 @@ function renderReport(r) {
     '<div class="rrow"><span>Interested<small>Open to a conversation</small></span><b>' + fmt(T.positive) + '</b></div>' +
     '<div class="rrow"><span>Other<small>Left the company, a question, or the wording was not logged</small></span><b>' + fmt(oth) + '</b></div>' +
     '</div></div>' +
-    '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div></div></div></section>' + liSec +
+    '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div></div></div></section>' + liSec + ukSec +
     '<section class="sec"><h2>In short</h2><div class="summary">' + r.summary.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
     '<section class="sec"><h2>How to read this</h2><ul class="notes">' + r.notes.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul></section>' +
     '<div class="rfoot"><a href="../">Back to Reporting</a></div>';
@@ -180,7 +204,7 @@ function showInside(data) {
   document.getElementById("panel").innerHTML =
     '<a class="logo" href="../../index.html">Strong <span>Minds</span></a>' +
     '<p class="kicker" style="margin-top:1.2rem">Reporting</p>' +
-    '<h1>Droxic</h1>' +
+    '<h1>Droxic Sales</h1>' +
     '<p style="margin-top:.8rem">The report is not available right now.</p>' +
     '<a class="back" href="../">Back to Reporting</a>';
 }
