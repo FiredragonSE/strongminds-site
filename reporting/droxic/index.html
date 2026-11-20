@@ -115,7 +115,7 @@
 <main class="wrap" id="r-main"></main>
 </div>
 <script>
-function esc(v) { return String(v).replace(/[&<>"]/g, function (c) { return { "&": "&", "<": "<", ">": ">", '"': """ }[c]; }); }
+function esc(v) { return String(v).replace(/[&<>"]/g, function (c) { return { "&": "\u0026amp;", "<": "\u0026lt;", ">": "\u0026gt;", '"': "\u0026quot;" }[c]; }); }
 function fmt(n) { return (n === null || n === undefined) ? '<span class="na">not tracked</span>' : Number(n).toLocaleString("en-GB"); }
 function renderReport(r) {
   var T = r.totals, M = r.months, E = r.earlierReplies;
