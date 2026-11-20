@@ -28,11 +28,15 @@
   .rhero .sub { max-width:38rem; font-size:1.15rem; margin:1.1rem 0 0; opacity:.95; }
   .rhero .asof { display:inline-block; margin-top:1.4rem; padding:.35rem .8rem; border:1px solid rgba(255,255,255,.55); border-radius:2rem; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; }
   .kpis { display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); margin-top:-5rem; position:relative; z-index:2; }
-  @media (min-width:800px) { .kpis { grid-template-columns:repeat(4,1fr); } }
+  .kpis .kpi:last-child { grid-column:span 2; }
+  @media (min-width:1000px) { .kpis { grid-template-columns:repeat(5,1fr); } .kpis .kpi:last-child { grid-column:auto; } }
   .kpi { background:#fff; border-top:4px solid var(--accent); border-radius:.4rem; padding:1.3rem 1.3rem 1.1rem; box-shadow:0 10px 30px rgba(18,35,63,.16); }
   .kpi .v { font-family:Newsreader,Georgia,serif; font-size:clamp(2.2rem,5vw,3.2rem); line-height:1; color:var(--accent); margin:0; }
   .kpi .l { margin:.5rem 0 0; font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink); }
   .kpi .n { margin:.35rem 0 0; font-size:.85rem; color:var(--muted); }
+  .lis { display:grid; gap:1rem; grid-template-columns:repeat(2,1fr); align-content:start; }
+  .lis .kpi { box-shadow:0 1px 2px rgba(18,35,63,.07); }
+  .lis .kpi .v { font-size:clamp(1.8rem,3.4vw,2.4rem); }
   .kpi.warm { border-top-color:#1f9d6b; } .kpi.warm .v { color:#1f9d6b; }
   .sec { padding:3.2rem 0 0; }
   .sec h2 { font-size:clamp(1.8rem,3.4vw,2.4rem); }
@@ -124,13 +128,23 @@ function renderReport(r) {
   }).join("");
   var early = '<tr class="early"><td>Earlier, date not recorded</td><td>\u2013</td><td>\u2013</td><td>' + fmt(E.replies) + "</td><td>" + fmt(E.softNo) + "</td><td>" + fmt(E.hardNo) + "</td><td>\u2013</td></tr>";
   var tot = '<tr class="tot"><td>Total</td><td>' + fmt(T.firstTouchEmails) + "</td><td>" + fmt(T.followUps) + "</td><td>" + fmt(T.replies) + "</td><td>" + fmt(T.softNo) + "</td><td>" + fmt(T.hardNo) + "</td><td>" + fmt(T.meetings) + "</td></tr>";
-  var L = r.linkedin || { status: "counting" }, liHtml;
+  var L = r.linkedin || { status: "counting" }, liSec = "", liKpi = "";
   if (L.status === "final" && L.live) {
-    var lr = L.live.months.map(function (m) { return "<tr><td>" + esc(m.month) + "</td><td>" + fmt(m.invites) + "</td><td>" + fmt(m.messages) + "</td><td>" + fmt(m.replies) + "</td></tr>"; }).join("");
-    var lt = L.live.totals;
-    liHtml = '<div class="tscroll"><table class="t"><thead><tr><th>Month</th><th>Invites</th><th>Messages</th><th>Replies</th></tr></thead><tbody>' + lr + '<tr class="tot"><td>Total</td><td>' + fmt(lt.invites) + "</td><td>" + fmt(lt.messages) + "</td><td>" + fmt(lt.replies) + "</td></tr></tbody></table></div>";
+    var LM = L.live.months, LT = L.live.totals;
+    var lr = LM.map(function (m) { return "<tr><td>" + esc(m.month) + (m.month === "Nov" ? ' <span class="na">(to 20 Nov)</span>' : "") + "</td><td>" + fmt(m.conversations) + "</td><td>" + fmt(m.replies) + "</td><td>~" + fmt(m.pendingInvites) + "</td><td>" + fmt(m.newConnections) + "</td></tr>"; }).join("");
+    var approx = Math.round(LT.pendingInvites / 10) * 10;
+    liKpi = '<div class="kpi"><p class="v">' + fmt(LT.conversations) + '</p><p class="l">LinkedIn conversations</p><p class="n">about ' + fmt(approx) + ' invites pending</p></div>';
+    liSec = '<section class="sec"><h2>LinkedIn</h2><p class="lede">Counted by hand in LinkedIn on 20 November 2026.</p>' +
+      '<div class="grid2"><div class="panelc"><h3>Month by month</h3><div class="tscroll"><table class="t"><thead><tr><th>Month</th><th>Prospect conversations</th><th>Replies (min.)</th><th>Pending invites</th><th>New connections</th></tr></thead><tbody>' + lr +
+      '<tr class="tot"><td>Total</td><td>' + fmt(LT.conversations) + "</td><td>" + fmt(LT.replies) + "</td><td>~" + fmt(LT.pendingInvites) + "</td><td>" + fmt(LT.newConnections) + "</td></tr></tbody></table></div>" +
+      '<p class="na" style="margin:1rem 0 0">Conversations are message threads, counted by the month of their latest activity. The true number of messages is higher because of follow-ups. Replies are threads where the prospect wrote last, so this is a minimum. Pending invites are approximate: LinkedIn only shows their age. New connections are all new connections, not only Droxic.</p></div>' +
+      '<div class="lis"><div class="kpi"><p class="v">' + fmt(LT.conversations) + '</p><p class="l">Prospect conversations</p><p class="n">by latest activity</p></div>' +
+      '<div class="kpi"><p class="v">' + fmt(LT.replies) + '</p><p class="l">Replies</p><p class="n">at least</p></div>' +
+      '<div class="kpi"><p class="v">~' + fmt(LT.pendingInvites) + '</p><p class="l">Invites pending</p><p class="n">sent, not yet accepted</p></div>' +
+      '<div class="kpi"><p class="v">' + fmt(LT.newConnections) + '</p><p class="l">New connections</p><p class="n">all, Sep to 20 Nov</p></div></div></div></section>';
   } else {
-    liHtml = '<p class="muted" style="margin:0"><b>Being counted.</b> Connection invites, messages and replies are being counted directly on LinkedIn. The figures will appear here as soon as the count is done.</p>';
+    liKpi = '<div class="kpi"><p class="v">\u2013</p><p class="l">LinkedIn</p><p class="n">being counted</p></div>';
+    liSec = '<section class="sec"><h2>LinkedIn</h2><p class="lede"><b>Being counted.</b> The figures will appear here as soon as the count is done.</p></section>';
   }
   var pct = function (n) { return (100 * n / T.replies).toFixed(1) + "%"; };
   var oth = T.otherReplies;
@@ -139,7 +153,7 @@ function renderReport(r) {
     '<div class="kpi"><p class="v">' + fmt(T.firstTouchEmails) + '</p><p class="l">First-touch emails</p><p class="n">' + fmt(T.followUps) + ' follow-ups to ' + fmt(T.followUpPeople) + ' people</p></div>' +
     '<div class="kpi"><p class="v">' + fmt(T.replies) + '</p><p class="l">Email replies</p><p class="n">' + T.repliesPer100FirstTouchEmails + ' per 100 first-touch emails</p></div>' +
     '<div class="kpi"><p class="v">' + fmt(T.softNo + T.hardNo) + '</p><p class="l">Said no</p><p class="n">' + fmt(T.hardNo) + ' not interested, ' + fmt(T.softNo) + ' not now</p></div>' +
-    '<div class="kpi warm"><p class="v">' + fmt(T.meetings) + '</p><p class="l">Meeting booked</p><p class="n">' + esc(r.meeting.company) + ', Mon 23 Nov</p></div>' +
+    '<div class="kpi warm"><p class="v">' + fmt(T.meetings) + '</p><p class="l">Meeting booked</p><p class="n">' + esc(r.meeting.company) + ', Mon 23 Nov</p></div>' + liKpi +
     '</div>' +
     '<section class="sec"><h2>Month by month</h2><p class="lede">Emails sent from the Droxic mailbox, counted once per person and day.</p>' +
     '<div class="grid2"><div class="panelc"><h3>Overview</h3><div class="tscroll"><table class="t"><thead><tr><th>Month</th><th>First touch</th><th>Follow-ups</th><th>Replies</th><th>Not now</th><th>Not interested</th><th>Meetings</th></tr></thead><tbody>' + rows + early + tot + '</tbody></table></div></div>' +
@@ -153,8 +167,7 @@ function renderReport(r) {
     '<div class="rrow"><span>Interested<small>Open to a conversation</small></span><b>' + fmt(T.positive) + '</b></div>' +
     '<div class="rrow"><span>Other<small>Left the company, a question, or the wording was not logged</small></span><b>' + fmt(oth) + '</b></div>' +
     '</div></div>' +
-    '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div>' +
-    '<div class="panelc" style="margin-top:1.4rem"><h3>LinkedIn</h3>' + liHtml + '</div></div></div></section>' +
+    '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div></div></div></section>' + liSec +
     '<section class="sec"><h2>In short</h2><div class="summary">' + r.summary.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
     '<section class="sec"><h2>How to read this</h2><ul class="notes">' + r.notes.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul></section>' +
     '<div class="rfoot"><a href="../">Back to Reporting</a></div>';
