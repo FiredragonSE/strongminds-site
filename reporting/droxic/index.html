@@ -113,63 +113,35 @@
 function esc(v) { return String(v).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 function fmt(n) { return (n === null || n === undefined) ? '<span class="na">not tracked</span>' : Number(n).toLocaleString("en-GB"); }
 function renderReport(r) {
-  var T = r.totals, M = r.months, E = r.earlierReplies;
+  var T = r.totals, M = r.months, E = r.undated;
   document.getElementById("r-sub").textContent = r.subtitle;
   document.getElementById("r-asof").textContent = "Status " + r.asOf + " \u00b7 " + r.period;
-  var maxv = 0; M.forEach(function (m) { maxv = Math.max(maxv, m.firstTouchEmails, m.followUps); });
+  var maxv = 0; M.forEach(function (m) { maxv = Math.max(maxv, m.outreach, m.followUps); });
   var chart = M.map(function (m) {
     return '<div class="col"><div class="bars">' +
-      '<div class="bar1 c-ft" style="height:' + (100 * m.firstTouchEmails / maxv) + '%"><b>' + fmt(m.firstTouchEmails) + '</b></div>' +
+      '<div class="bar1 c-ft" style="height:' + (100 * m.outreach / maxv) + '%"><b>' + fmt(m.outreach) + '</b></div>' +
       '<div class="bar1 c-fu" style="height:' + (100 * m.followUps / maxv) + '%"><b>' + fmt(m.followUps) + '</b></div>' +
       '</div><div class="ml">' + esc(m.month) + '</div></div>';
   }).join("");
   var rows = M.map(function (m) {
-    return "<tr><td>" + esc(m.month) + (m.month === "Nov" ? ' <span class="na">(to 20 Nov)</span>' : "") + "</td><td>" + fmt(m.firstTouchEmails) + "</td><td>" + fmt(m.followUps) + "</td><td>" + fmt(m.replies) + "</td><td>" + fmt(m.softNo) + "</td><td>" + fmt(m.hardNo) + "</td><td>" + fmt(m.meetings) + "</td></tr>";
+    return "<tr><td>" + esc(m.month) + (m.month === "Nov" ? ' <span class="na">(to 20 Nov)</span>' : "") + "</td><td>" + fmt(m.outreach) + "</td><td>" + fmt(m.followUps) + "</td><td>" + fmt(m.negative) + "</td><td>" + fmt(m.softPositive) + "</td><td>" + fmt(m.positive) + "</td></tr>";
   }).join("");
-  var early = '<tr class="early"><td>Earlier, date not recorded</td><td>\u2013</td><td>\u2013</td><td>' + fmt(E.replies) + "</td><td>" + fmt(E.softNo) + "</td><td>" + fmt(E.hardNo) + "</td><td>\u2013</td></tr>";
-  var tot = '<tr class="tot"><td>Total</td><td>' + fmt(T.firstTouchEmails) + "</td><td>" + fmt(T.followUps) + "</td><td>" + fmt(T.replies) + "</td><td>" + fmt(T.softNo) + "</td><td>" + fmt(T.hardNo) + "</td><td>" + fmt(T.meetings) + "</td></tr>";
-  var L = r.linkedin || { status: "counting" }, liSec = "", liKpi = "";
-  if (L.status === "final" && L.live) {
-    var LM = L.live.months, LT = L.live.totals;
-    var lr = LM.map(function (m) { return "<tr><td>" + esc(m.month) + (m.month === "Nov" ? ' <span class="na">(to 20 Nov)</span>' : "") + "</td><td>" + fmt(m.conversations) + "</td><td>" + fmt(m.replies) + "</td><td>~" + fmt(m.pendingInvites) + "</td><td>" + fmt(m.newConnections) + "</td></tr>"; }).join("");
-    var approx = Math.round(LT.pendingInvites / 10) * 10;
-    liKpi = '<div class="kpi"><p class="v">' + fmt(LT.conversations) + '</p><p class="l">LinkedIn conversations</p><p class="n">about ' + fmt(approx) + ' invites pending</p></div>';
-    liSec = '<section class="sec"><h2>LinkedIn</h2><p class="lede">Counted by hand in LinkedIn on 20 November 2026.</p>' +
-      '<div class="grid2"><div class="panelc"><h3>Month by month</h3><div class="tscroll"><table class="t"><thead><tr><th>Month</th><th>Prospect conversations</th><th>Replies (min.)</th><th>Pending invites</th><th>New connections</th></tr></thead><tbody>' + lr +
-      '<tr class="tot"><td>Total</td><td>' + fmt(LT.conversations) + "</td><td>" + fmt(LT.replies) + "</td><td>~" + fmt(LT.pendingInvites) + "</td><td>" + fmt(LT.newConnections) + "</td></tr></tbody></table></div>" +
-      '<p class="na" style="margin:1rem 0 0">Conversations are message threads, counted by the month of their latest activity. The true number of messages is higher because of follow-ups. Replies are threads where the prospect wrote last, so this is a minimum. Pending invites are approximate: LinkedIn only shows their age. New connections are all new connections, not only Droxic.</p></div>' +
-      '<div class="lis"><div class="kpi"><p class="v">' + fmt(LT.conversations) + '</p><p class="l">Prospect conversations</p><p class="n">by latest activity</p></div>' +
-      '<div class="kpi"><p class="v">' + fmt(LT.replies) + '</p><p class="l">Replies</p><p class="n">at least</p></div>' +
-      '<div class="kpi"><p class="v">~' + fmt(LT.pendingInvites) + '</p><p class="l">Invites pending</p><p class="n">sent, not yet accepted</p></div>' +
-      '<div class="kpi"><p class="v">' + fmt(LT.newConnections) + '</p><p class="l">New connections</p><p class="n">all, Sep to 20 Nov</p></div></div></div></section>';
-  } else {
-    liKpi = '<div class="kpi"><p class="v">\u2013</p><p class="l">LinkedIn</p><p class="n">being counted</p></div>';
-    liSec = '<section class="sec"><h2>LinkedIn</h2><p class="lede"><b>Being counted.</b> The figures will appear here as soon as the count is done.</p></section>';
-  }
-  var pct = function (n) { return (100 * n / T.replies).toFixed(1) + "%"; };
-  var oth = T.otherReplies;
+  var early = '<tr class="early"><td>Earlier, no date</td><td>' + fmt(E.outreach) + "</td><td>\u2013</td><td>" + fmt(E.negative) + "</td><td>" + fmt(E.softPositive) + "</td><td>" + fmt(E.positive) + "</td></tr>";
+  var tot = '<tr class="tot"><td>Total</td><td>' + fmt(T.outreach) + "</td><td>" + fmt(T.followUps) + "</td><td>" + fmt(T.negative) + "</td><td>" + fmt(T.softPositive) + "</td><td>" + fmt(T.positive) + "</td></tr>";
   var html =
     '<div class="kpis">' +
-    '<div class="kpi"><p class="v">' + fmt(T.firstTouchEmails) + '</p><p class="l">First-touch emails</p><p class="n">' + fmt(T.followUps) + ' follow-ups to ' + fmt(T.followUpPeople) + ' people</p></div>' +
-    '<div class="kpi"><p class="v">' + fmt(T.replies) + '</p><p class="l">Email replies</p><p class="n">' + T.repliesPer100FirstTouchEmails + ' per 100 first-touch emails</p></div>' +
-    '<div class="kpi"><p class="v">' + fmt(T.softNo + T.hardNo) + '</p><p class="l">Said no</p><p class="n">' + fmt(T.hardNo) + ' not interested, ' + fmt(T.softNo) + ' not now</p></div>' +
-    '<div class="kpi warm"><p class="v">' + fmt(T.meetings) + '</p><p class="l">Meeting booked</p><p class="n">' + esc(r.meeting.company) + ', Mon 23 Nov</p></div>' + liKpi +
+    '<div class="kpi"><p class="v">' + fmt(T.outreach) + '</p><p class="l">Outreach</p></div>' +
+    '<div class="kpi"><p class="v">' + fmt(T.followUps) + '</p><p class="l">Follow-ups</p></div>' +
+    '<div class="kpi"><p class="v">' + fmt(T.negative) + '</p><p class="l">Negative</p></div>' +
+    '<div class="kpi"><p class="v">' + fmt(T.softPositive) + '</p><p class="l">Soft positive</p></div>' +
+    '<div class="kpi warm"><p class="v">' + fmt(T.positive) + '</p><p class="l">Positive / meetings</p><p class="n">' + fmt(T.meetings) + ' meeting booked</p></div>' +
     '</div>' +
-    '<section class="sec"><h2>Month by month</h2><p class="lede">Emails sent from the Droxic mailbox, counted once per person and day.</p>' +
-    '<div class="grid2"><div class="panelc"><h3>Overview</h3><div class="tscroll"><table class="t"><thead><tr><th>Month</th><th>First touch</th><th>Follow-ups</th><th>Replies</th><th>Not now</th><th>Not interested</th><th>Meetings</th></tr></thead><tbody>' + rows + early + tot + '</tbody></table></div></div>' +
-    '<div class="panelc"><h3>Emails sent</h3><div class="chart">' + chart + '</div><div class="legend"><span><i class="c-ft"></i>First touch</span><span><i class="c-fu"></i>Follow-ups</span></div></div></div></section>' +
-    '<section class="sec"><h2>Replies</h2><p class="lede">Email replies from people, counted once per person. Out-of-office and automatic replies are not included.</p>' +
-    '<div class="grid2"><div class="panelc"><h3>' + fmt(T.replies) + ' people replied by email</h3>' +
-    '<div class="split"><span class="s-hard" style="width:' + pct(T.hardNo) + '"></span><span class="s-soft" style="width:' + pct(T.softNo) + '"></span><span class="s-pos" style="width:' + pct(T.positive) + '"></span><span class="s-oth" style="width:' + pct(oth) + '"></span></div>' +
-    '<div class="legend"><span><i class="s-hard"></i>Not interested</span><span><i class="s-soft"></i>Not now</span><span><i class="s-pos"></i>Interested</span><span><i class="s-oth"></i>Other</span></div>' +
-    '<div style="margin-top:1rem"><div class="rrow"><span>Not interested<small>Flat no, unsubscribe. Never contacted again.</small></span><b>' + fmt(T.hardNo) + '</b></div>' +
-    '<div class="rrow"><span>Not now<small>Not now, or happy with the current team</small></span><b>' + fmt(T.softNo) + '</b></div>' +
-    '<div class="rrow"><span>Interested<small>Open to a conversation</small></span><b>' + fmt(T.positive) + '</b></div>' +
-    '<div class="rrow"><span>Other<small>Left the company, a question, or the wording was not logged</small></span><b>' + fmt(oth) + '</b></div>' +
-    '</div></div>' +
-    '<div><div class="meet"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div></div></div></section>' + liSec +
-    '<section class="sec"><h2>In short</h2><div class="summary">' + r.summary.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
-    '<section class="sec"><h2>How to read this</h2><ul class="notes">' + r.notes.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + '</ul></section>' +
+    '<section class="sec"><h2>Month by month</h2>' +
+    '<div class="grid2"><div class="panelc"><h3>Overview</h3><div class="tscroll"><table class="t"><thead><tr><th>Month</th><th>Outreach</th><th>Follow-ups</th><th>Negative</th><th>Soft positive</th><th>Positive / meetings</th></tr></thead><tbody>' + rows + early + tot + '</tbody></table></div></div>' +
+    '<div class="panelc"><h3>Outreach and follow-ups</h3><div class="chart">' + chart + '</div><div class="legend"><span><i class="c-ft"></i>Outreach</span><span><i class="c-fu"></i>Follow-ups</span></div></div></div>' +
+    '<div class="meet" style="margin-top:1.2rem"><span class="k">Meeting</span><span class="big">' + esc(r.meeting.company) + '</span><p>' + esc(r.meeting.contact) + '</p><p>' + esc(r.meeting.when) + '</p></div>' +
+    '<p class="na" style="margin:1.2rem 0 0">' + esc(r.note) + '</p></section>' +
+    '<section class="sec"><h2>Market</h2><div class="summary">' + r.market.map(function (x) { return "<p>" + esc(x) + "</p>"; }).join("") + '</div></section>' +
     '<div class="rfoot"><a href="../">Back to Reporting</a></div>';
   document.getElementById("r-main").innerHTML = html;
   document.body.classList.add("report-on");
